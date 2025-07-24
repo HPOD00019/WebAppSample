@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Api", "src\Microservices\AuthService\AuthService.Api\AuthService.Api.csproj", "{DAE55C05-5183-46F2-8054-678F26357509}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Application", "src\Microservices\AuthService\AuthService.Application\AuthService.Application.csproj", "{980F9985-59EC-4F14-8719-EC2492EF4978}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Domain", "src\Microservices\AuthService\AuthService.Domain\AuthService.Domain.csproj", "{3241C298-E882-42D0-A8AB-10C3DF59C715}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Infrastructure", "src\Microservices\AuthService\AuthService.Infrastructure\AuthService.Infrastructure.csproj", "{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{57BF9C86-6F14-492B-8A22-05D3D8785D50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{D1EEA8D4-226F-4492-9ECB-14953239D082}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{004DFA40-E922-4ECE-9C02-E7E041C0C39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authservice", "Authservice", "{4CD83E46-4157-4903-9A56-301DA0694275}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAE55C05-5183-46F2-8054-678F26357509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAE55C05-5183-46F2-8054-678F26357509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAE55C05-5183-46F2-8054-678F26357509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAE55C05-5183-46F2-8054-678F26357509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{980F9985-59EC-4F14-8719-EC2492EF4978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{980F9985-59EC-4F14-8719-EC2492EF4978}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{980F9985-59EC-4F14-8719-EC2492EF4978}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{980F9985-59EC-4F14-8719-EC2492EF4978}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3241C298-E882-42D0-A8AB-10C3DF59C715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3241C298-E882-42D0-A8AB-10C3DF59C715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3241C298-E882-42D0-A8AB-10C3DF59C715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3241C298-E882-42D0-A8AB-10C3DF59C715}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DAE55C05-5183-46F2-8054-678F26357509} = {4CD83E46-4157-4903-9A56-301DA0694275}
+		{980F9985-59EC-4F14-8719-EC2492EF4978} = {4CD83E46-4157-4903-9A56-301DA0694275}
+		{3241C298-E882-42D0-A8AB-10C3DF59C715} = {4CD83E46-4157-4903-9A56-301DA0694275}
+		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D} = {4CD83E46-4157-4903-9A56-301DA0694275}
+		{D1EEA8D4-226F-4492-9ECB-14953239D082} = {57BF9C86-6F14-492B-8A22-05D3D8785D50}
+		{004DFA40-E922-4ECE-9C02-E7E041C0C39B} = {57BF9C86-6F14-492B-8A22-05D3D8785D50}
+		{4CD83E46-4157-4903-9A56-301DA0694275} = {004DFA40-E922-4ECE-9C02-E7E041C0C39B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0D95858-FA18-42E7-A066-9D7E8B9914A8}
+	EndGlobalSection
+EndGlobal

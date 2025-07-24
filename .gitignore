@@ -1,0 +1,33 @@
+## Игнорировать бинарные файлы и сборки ##
+bin/
+obj/
+*.exe
+*.dll
+*.pdb
+*.cache
+
+## Настройки Visual Studio ##
+.vs/
+*.user
+*.suo
+*.userprefs
+
+## Резервные копии и временные файлы ##
+*.bak
+*.tmp
+*.swp
+
+## Логи и результаты тестов ##
+TestResults/
+*.log
+
+## NuGet пакеты ##
+packages/
+*.nupkg
+
+## Файлы Rider (если используется) ##
+.idea/
+*.sln.iml
+
+## Файлы Azure ##
+*.azurepubxml
