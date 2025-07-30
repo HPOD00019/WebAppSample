@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AuthService.Domain.Models
 {
-    enum UserRole
+    public enum UserRole
     {
         RegularUser, 
         Admin, 
