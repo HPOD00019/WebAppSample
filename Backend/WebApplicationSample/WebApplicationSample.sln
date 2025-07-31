@@ -8,10 +8,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Application", "src\Microservices\AuthService\AuthService.Application\AuthService.Application.csproj", "{980F9985-59EC-4F14-8719-EC2492EF4978}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Domain", "src\Microservices\AuthService\AuthService.Domain\AuthService.Domain.csproj", "{3241C298-E882-42D0-A8AB-10C3DF59C715}"
-	ProjectSection(ProjectDependencies) = postProject
-		{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D} = {22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}
-		{980F9985-59EC-4F14-8719-EC2492EF4978} = {980F9985-59EC-4F14-8719-EC2492EF4978}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthService.Infrastructure", "src\Microservices\AuthService\AuthService.Infrastructure\AuthService.Infrastructure.csproj", "{22336EA6-38FB-4B8A-B7EC-20EBFC7D5D7D}"
 EndProject

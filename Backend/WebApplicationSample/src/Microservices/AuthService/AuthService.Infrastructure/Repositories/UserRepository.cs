@@ -22,7 +22,6 @@ namespace AuthService.Infrastructure.Repositories
             {
                 var id = Guid.NewGuid();
                 user.Id = id;
-
             }
 
             _context.Users.Add(user);
