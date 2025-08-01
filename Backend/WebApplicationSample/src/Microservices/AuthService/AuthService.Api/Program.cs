@@ -1,3 +1,5 @@
+using AuthService.Infrastructure;
+
 
 namespace AuthService.Api
 {
@@ -9,7 +11,7 @@ namespace AuthService.Api
 
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddInfrastructure();
 
             var app = builder.Build();
 
