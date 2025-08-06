@@ -1,4 +1,6 @@
+using AuthService.Application.Commands.Register;
 using AuthService.Infrastructure;
+using MediatR;
 
 
 namespace AuthService.Api
@@ -11,7 +13,12 @@ namespace AuthService.Api
 
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddInfrastructure();
+
+            builder.Services.AddInfrastructure(builder.Configuration);
+
+
+            builder.Services.AddTransient<IMediator, Mediator>();
+            builder.Services.AddMediatR(typeof(Program).Assembly, typeof(RegisterUserCommand).Assembly);
 
             var app = builder.Build();
 

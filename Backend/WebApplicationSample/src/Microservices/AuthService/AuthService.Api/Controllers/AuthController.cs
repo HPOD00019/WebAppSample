@@ -9,9 +9,9 @@ namespace AuthService.Api.Controllers
     [Route("/[controller]")]
     public class AuthController : ControllerBase
     {
-        private Mediator _mediator;
+        private IMediator _mediator;
 
-        public AuthController(Mediator mediator)
+        public AuthController(IMediator mediator)
         {
             _mediator = mediator;
         }
