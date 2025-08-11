@@ -18,7 +18,6 @@ namespace AuthService.Infrastructure
 
             services.AddDbContext<AuthMicroserviceDbContext>(options =>
             {
-
                 options.UseNpgsql(
                     config.GetConnectionString("AuthServiceDataBase"),
                     npgsqlOptions =>

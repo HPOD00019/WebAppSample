@@ -33,7 +33,7 @@ namespace AuthService.Api.Controllers
 
             var id = await _mediator.Send(request);
 
-            return BadRequest();
+            return Ok();
         }
     }
 }
