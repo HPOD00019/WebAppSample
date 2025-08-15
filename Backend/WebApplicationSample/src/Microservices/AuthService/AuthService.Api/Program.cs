@@ -1,5 +1,7 @@
 using AuthService.Application.Commands.Register;
+using AuthService.Domain.Services;
 using AuthService.Infrastructure;
+using AuthService.Application.Services;
 using MediatR;
 
 
@@ -15,6 +17,17 @@ namespace AuthService.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddInfrastructure(builder.Configuration);
+
+            builder.Services.AddSingleton<ITokenEncrypter>(provider =>
+            {
+                var config = provider.GetService<IConfiguration>();
+                var privateKey = config["RSAencryptionKeys:PrivateKey"];
+                var publicKey = config["RSAencryptionKeys:PublicKey"];
+
+                var rsaEncryptionService = new RsaTokenEncryptionService(privateKey, publicKey);
+
+                return rsaEncryptionService;
+            });
 
 
             builder.Services.AddTransient<IMediator, Mediator>();

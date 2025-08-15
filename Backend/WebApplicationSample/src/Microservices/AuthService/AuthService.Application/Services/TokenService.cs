@@ -3,11 +3,13 @@ using AuthService.Domain.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
+
 
 namespace AuthService.Application.Services
 {
     
-    class TokenService : ITokenService
+    public class TokenService : ITokenService
     {
         private ITokenEncoder _tokenEncoder;
         private ITokenEncrypter _tokenEncrypter;
@@ -36,6 +38,9 @@ namespace AuthService.Application.Services
             //2. Json we code and return coded version
             
             var tokenHandler = new JwtSecurityTokenHandler();
+
+
+            var encrypter = RSA.Create();
             var claims = new[]
             {
                 new Claim("UserId", user.Id.ToString()),
