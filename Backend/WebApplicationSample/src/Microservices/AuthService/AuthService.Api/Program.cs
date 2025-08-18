@@ -17,16 +17,15 @@ namespace AuthService.Api
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddInfrastructure(builder.Configuration);
-
-            builder.Services.AddSingleton<ITokenEncrypter>(provider =>
+            builder.Services.AddScoped<ITokenService>(provider =>
             {
                 var config = provider.GetService<IConfiguration>();
                 var privateKey = config["RSAencryptionKeys:PrivateKey"];
                 var publicKey = config["RSAencryptionKeys:PublicKey"];
 
-                var rsaEncryptionService = new RsaTokenEncryptionService(privateKey, publicKey);
+                var tokenService = new TokenService(privateKey, publicKey);
+                return tokenService;
 
-                return rsaEncryptionService;
             });
 
 

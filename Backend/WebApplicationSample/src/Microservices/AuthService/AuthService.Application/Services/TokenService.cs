@@ -11,66 +11,83 @@ namespace AuthService.Application.Services
     
     public class TokenService : ITokenService
     {
-        private ITokenEncoder _tokenEncoder;
-        private ITokenEncrypter _tokenEncrypter;
+        private readonly string _privateRsaKey;
+        private readonly string _publicRsaKey;
 
-        public TokenService(ITokenEncoder tokenEncoder, ITokenEncrypter tokenEncrypter)
+        private readonly RSA _rsaEncrypter;
+        private readonly JwtSecurityTokenHandler _tokenHandler;
+
+        public TokenService(string publicKey, string privateKey)
         {
-            _tokenEncoder = tokenEncoder;
-            _tokenEncrypter = tokenEncrypter;
+            _privateRsaKey = privateKey;
+            _publicRsaKey = publicKey;
+
+            _tokenHandler = new JwtSecurityTokenHandler();
+
+            _rsaEncrypter = RSA.Create();
+            _rsaEncrypter.ImportFromPem(_publicRsaKey);
+            _rsaEncrypter.ImportFromPem(_privateRsaKey);
         }
 
-        public Task<string> GenerateAccessToken(string refreshToken)
+        public Task<Result<string>> GenerateAccessToken(string refreshToken)
         {
+            if (!this.ValidateRefreshToken(refreshToken));
 
             throw new NotImplementedException();
         }
 
-        public Task<string> GenerateRefreshToken(User user)
+        public async Task<string> GenerateRefreshToken(User user)
         {
-
-            //1. Make Our Json. How?
-            //  1.1 Make header
-            //  1.2 Make payload
-            //  
-            //  1.3 Encrypt our data (header and payload), result -> signature (elecronic sign) 
-            //1.End -> We got our complete Json
-            //2. Json we code and return coded version
-            
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = new RsaSecurityKey(_rsaEncrypter);
 
 
-            var encrypter = RSA.Create();
             var claims = new[]
             {
-                new Claim("UserId", user.Id.ToString()),
-                new Claim("Role", user.Role.ToString()),
-                
+                new Claim("UserName", user.UserName),
+                new Claim("UserRole", user.Role.ToString())
             };
-            var tokenDescriptor = new SecurityTokenDescriptor()
+
+            var sign = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha256);
+
+            var tokenDescriptor = new SecurityTokenDescriptor 
             {
                 Subject = new ClaimsIdentity(claims),
-                //SigningCredentials = new SigningCredentials(key)
+                SigningCredentials = sign,
+                
             };
+            tokenDescriptor.Subject = new ClaimsIdentity(claims);
+            tokenDescriptor.SigningCredentials = sign;
+
             
+            var token = _tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = _tokenHandler.WriteToken(token);
 
+            return jwt;
+        }
 
+        public bool ValidateRefreshToken(string token)
+        {
+            var publicKey = new RsaSecurityKey(_rsaEncrypter.ExportParameters(false));
 
-            var alg = _tokenEncrypter.GetEncryptionType();
-            var tokenHeader = new
+            var parameters = new TokenValidationParameters
             {
-                type = "JWT",
-                encryptionAlgorithm = alg,
+                IssuerSigningKey = publicKey,
+                ValidateLifetime = false,
+                ValidateIssuer = false,
+                ValidateAudience = false,
             };
 
-            var tokenBody = new
+            try
             {
-                UserId = user.Id,
-                Role = user.Role.ToString(),
-
-            };
-
-            throw new NotImplementedException();
+                _tokenHandler.ValidateToken(token, parameters, out _);
+                return true;
+            }
+            catch (SecurityTokenException ex)
+            {
+                return false;
+            }
+            
+            
         }
     }
 }
