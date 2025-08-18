@@ -1,4 +1,5 @@
-﻿using AuthService.Domain.Models;
+﻿using AuthService.Domain.Errors;
+using AuthService.Domain.Models;
 using AuthService.Domain.Services;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -31,12 +32,12 @@ namespace AuthService.Application.Services
 
         public Task<Result<string>> GenerateAccessToken(string refreshToken)
         {
-            if (!this.ValidateRefreshToken(refreshToken));
+            
 
             throw new NotImplementedException();
         }
 
-        public async Task<string> GenerateRefreshToken(User user)
+        public async Task<Result<string>> GenerateRefreshToken(User user)
         {
             var securityKey = new RsaSecurityKey(_rsaEncrypter);
 
@@ -62,10 +63,12 @@ namespace AuthService.Application.Services
             var token = _tokenHandler.CreateToken(tokenDescriptor);
             var jwt = _tokenHandler.WriteToken(token);
 
-            return jwt;
+            var tokenResult = Result<string>.OnSuccess(jwt);
+
+            return tokenResult;
         }
 
-        public bool ValidateRefreshToken(string token)
+        public Result<string> ValidateRefreshToken(string token)
         {
             var publicKey = new RsaSecurityKey(_rsaEncrypter.ExportParameters(false));
 
@@ -80,11 +83,16 @@ namespace AuthService.Application.Services
             try
             {
                 _tokenHandler.ValidateToken(token, parameters, out _);
-                return true;
+                var result = Result<string>.OnSuccess(token);
+
+                return result;
             }
             catch (SecurityTokenException ex)
             {
-                return false;
+                var error = new Error(ErrorCode.RefreshTokenInvalid);
+                var result = Result<string>.OnFailure(error);
+
+                return result;
             }
             
             

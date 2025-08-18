@@ -1,9 +1,10 @@
 ﻿
 namespace AuthService.Domain.Errors
 {
-    public enum ErrorCodes
+    public enum ErrorCode
     {
         NoExceptions,
+        RefreshTokenInvalid,
 
     }
 }

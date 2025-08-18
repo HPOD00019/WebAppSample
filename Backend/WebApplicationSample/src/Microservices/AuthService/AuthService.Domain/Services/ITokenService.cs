@@ -1,16 +1,11 @@
-﻿using AuthService.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using AuthService.Application.Services;
+using AuthService.Domain.Models;
 namespace AuthService.Domain.Services
 {
     public interface ITokenService
     {
-        public Task<string> GenerateRefreshToken(User user);
-        public Task<string> GenerateAccessToken(string refreshToken);
+        public Task<Result<string>> GenerateRefreshToken(User user);
+        public Task<Result<string>> GenerateAccessToken(string refreshToken);
 
     }
 }

@@ -26,8 +26,11 @@ namespace AuthService.UnitTests
 
             TestUser.UserName = "TestName";
             TestUser.Role = UserRole.RegularUser;
-            
-            _out.WriteLine(await service.GenerateRefreshToken(TestUser));
+            var serviceResult = await service.GenerateRefreshToken(TestUser);
+            Assert.True(serviceResult.IsSuccess);
+
+            string ans = serviceResult.Value;
+            _out.WriteLine(ans);
         }
 
         [Fact]
@@ -42,8 +45,9 @@ namespace AuthService.UnitTests
             TestUser.UserName = "TestName";
             TestUser.Role = UserRole.RegularUser;
 
-            string token = await service.GenerateRefreshToken(TestUser);
-            Assert.True(service.ValidateRefreshToken(token));
+            var token = await service.GenerateRefreshToken(TestUser);
+            Assert.True(token.IsSuccess);
+            Assert.True(service.ValidateRefreshToken(token.Value).IsSuccess);
             _out.WriteLine("Token is correct, signature is valid, no exception");
             
             
@@ -57,7 +61,7 @@ namespace AuthService.UnitTests
             var service = new TokenService(Test_publicKey, Test_privateKey);
 
             string token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IlRlc3ROYW1lIiwiVXNlclJvbGUiOiJSZWd1bGFyVXNlciIsIm5iZiI6MTc1NTQ0MjE0MCwiZXhwIjoxNzU1NDQ1NzQwLCJpYXQiOjE3NTU0NDIxNDB9.C7P4aHC4cMd648Hi1EGHsv_npjvMBffmKG87pb99qaxcl6nk8PV6ix0SakKm63lMTe6TflAnwAqF5AdkFwER4j2CP_ysLX86IIj955y3k7Lyq_oFvODw-Ct1jZO8mZPZtJuUshPrtn-HBflxGvt8Xl1zbU-YGIe-kLjGHccJtaf3pNBzN9G6Dt5TIhIy8qXiHLa9iIGDLJi7ZSVvL9RIbzYGJIhOguOPu6gVqEGjgJDYwasdfawe2aA52tCYR7EHwSQllCmRvMYCbg4K0coBbodYaTPfKrSkZGpi7CXi-4-q8dj8kT7IUcD4S5JEDTIqdAHlhg";
-            Assert.False(service.ValidateRefreshToken(token));
+            Assert.False(service.ValidateRefreshToken(token).IsSuccess);
             _out.WriteLine("Token signature is incorrect, so false bool value was returned");
 
         }
