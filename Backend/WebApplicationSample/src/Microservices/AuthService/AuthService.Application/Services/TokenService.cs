@@ -30,11 +30,36 @@ namespace AuthService.Application.Services
             _rsaEncrypter.ImportFromPem(_privateRsaKey);
         }
 
-        public Task<Result<string>> GenerateAccessToken(string refreshToken)
+        public async Task<Result<string>> GenerateAccessToken(string refreshToken)
         {
-            
+            var validationResult = this.ValidateRefreshToken(refreshToken);
+            if (!validationResult.IsSuccess) return validationResult;
 
-            throw new NotImplementedException();
+            var token = _tokenHandler.ReadJwtToken(refreshToken);
+            var userId = token.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userId.Value)
+            };
+
+            var securityKey = new RsaSecurityKey(_rsaEncrypter);
+            var sign = new SigningCredentials(securityKey, SecurityAlgorithms.RsaSha256);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                SigningCredentials = sign,
+
+            };
+
+
+            var Token = _tokenHandler.CreateToken(tokenDescriptor);
+            var jwt = _tokenHandler.WriteToken(Token);
+
+            var tokenResult = Result<string>.OnSuccess(jwt);
+
+            return tokenResult;
         }
 
         public async Task<Result<string>> GenerateRefreshToken(User user)
@@ -44,7 +69,7 @@ namespace AuthService.Application.Services
 
             var claims = new[]
             {
-                new Claim("UserName", user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("UserRole", user.Role.ToString())
             };
 
@@ -56,8 +81,7 @@ namespace AuthService.Application.Services
                 SigningCredentials = sign,
                 
             };
-            tokenDescriptor.Subject = new ClaimsIdentity(claims);
-            tokenDescriptor.SigningCredentials = sign;
+            
 
             
             var token = _tokenHandler.CreateToken(tokenDescriptor);
