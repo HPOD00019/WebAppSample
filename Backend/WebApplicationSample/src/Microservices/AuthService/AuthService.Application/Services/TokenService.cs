@@ -118,8 +118,6 @@ namespace AuthService.Application.Services
 
                 return result;
             }
-            
-            
         }
     }
 }
