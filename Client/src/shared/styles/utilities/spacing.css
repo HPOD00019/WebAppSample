@@ -1,0 +1,19 @@
+.space-ver-xs> * + *{
+    margin-top: var(--space-xs);
+}
+.space-ver-sm> * + *{
+    margin-top: var(--space-sm);
+}
+.space-ver-md> * + *{
+    margin-top: var(--space-md);
+}
+.space-ver-lg> * + *{
+    margin-top: var(--space-lg);
+}
+.space-ver-xl> * + *{
+    margin-top: var(--space-xl);
+}
+
+.input-group-section + .input-group-section{
+    margin-top: var(--space-md)
+}
