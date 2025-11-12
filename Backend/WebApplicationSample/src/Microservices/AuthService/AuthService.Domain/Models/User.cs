@@ -13,7 +13,7 @@ namespace AuthService.Domain.Models
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public string PasswordSalt { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public UserRole Role { get; set; }
 
         public User()

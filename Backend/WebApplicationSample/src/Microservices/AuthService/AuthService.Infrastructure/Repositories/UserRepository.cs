@@ -14,6 +14,12 @@ namespace AuthService.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<User?> GetUserById(Guid TargetId)
+        {
+            var user = _context.Users.FirstOrDefault(user =>  user.Id == TargetId );
+            return user;
+
+        }
 
         public async Task<Guid> RegisterUser(User user)
         {

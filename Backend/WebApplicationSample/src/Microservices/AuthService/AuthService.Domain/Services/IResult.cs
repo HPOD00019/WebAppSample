@@ -6,6 +6,7 @@ namespace AuthService.Domain.Services
     {
         public bool IsSuccess { get; }
         public string? ErrorMessage { get; }
+        public Error? EmergedError { get; }
         public T? Value { get; }
     }
 }

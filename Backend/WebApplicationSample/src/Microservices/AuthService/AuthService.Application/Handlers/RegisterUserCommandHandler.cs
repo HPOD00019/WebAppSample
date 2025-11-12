@@ -3,10 +3,12 @@ using AuthService.Application.Commands.Register;
 using AuthService.Domain.Repositories;
 using AuthService.Domain.Models;
 using AuthService.Domain.PasswordSecurity;
-using System.Windows.Markup;
+using AuthService.Domain.Services;
+using AuthService.Application.Services;
+
 namespace AuthService.Application.Handlers
 {
-    class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Guid>
+    class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult<Guid>>
     {
         private IUserRepository _userRepository;
         private IPasswordHasher _passwordHashService;
@@ -17,9 +19,9 @@ namespace AuthService.Application.Handlers
             _userRepository = userRepository;
         }
 
+ 
 
-
-        public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<IResult<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User();
 
@@ -37,7 +39,8 @@ namespace AuthService.Application.Handlers
 
 
             var Id = await _userRepository.RegisterUser(user);
-            return Id;
+            var result = Result<Guid>.OnSuccess(Id);
+            return result;
         }
     }
 }

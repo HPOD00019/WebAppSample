@@ -16,4 +16,8 @@ COPY ["Microservices/AuthService/AuthService.Domain/AuthService.Infrastructure/A
 RUN dotnet restore "AuthService.API/AuthService.Api.csproj"
 
 COPY . .
+WORKDIR "/src/AuthService.API"
+RUN dotner build "AuthService.Api.csproj" -c Release -o /app/build
 
+FROM build AS publish
+RUN dotnet publish "Service1.csproj" -c Release -o /app/publish

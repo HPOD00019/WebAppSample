@@ -14,6 +14,24 @@ namespace AuthService.UnitTests
         {
             _out = Out;
         }
+        [Fact]
+        public async Task TokenService_Refresh_Token_Guid_User_Id_generation_test()
+        {
+            var Test_privateKey = "-----BEGIN PRIVATE KEY-----MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCsDjWZHoeO8ooQKCmcVqlvjMdmD4Ft8wJs6CmB0vU1SDxPGxr0GdNWcT5kmVs2/WiZMtFP4qQNxBEXZNh9gY4cQOk33wS9rE9w/Si0pu5ppfykWHVWi5BHk4DHAyIRtD9E2SBCVeL2XO9EpvOJr2pjUTEo7mxJEJwTNGjV71HoTRS3hDCY+Ocg34E0phOwCuTCQ7llkUSu8vA0GsbClw0XUN+d4GkFuhW+P8oUXxQwYvh6SYfWxfiNRn5WxZz2fuH9Pnn53VeK7pXOBAf+vc8mamOrqoFtn4FeSQanDMdGswlAYeouKawO6SVAPMVCvPuokaNkOstj1+pqLAHk2Bt9AgMBAAECggEAEQhaaP1F490B1ZtMPJRds1PR8joVu4844xQmoRoDuVHHL/jvIFF62Piz+bHZfvueLRBZT+8QA5GF3vWA8wfDduuRdZJSk1OpYkua3ytpYwm8wCjw+2+B3ybB3bG4iofNUvZVrwt2lkyunnK9SEOWehzcYNYdioF7mfEbHGv+hUsL6whQ35tiKKPnq/6qLsRKi9XjiRRjhfIPkDS2Vobt3OlCXr5b+aObL1I6p9I6vDw5nzt6e9GCjAVwapXqaaIXR/koOmtvvL0YZ01oREQopeso2jwx27+qRZkpdnwIkDe7GSdATFIwHQyO1nkLJzm8hQAJL2GkHwYBiyyEe3VCtwKBgQDbGKUzeB0QbDCj7gJresP7zrYbqRYGAqrpDnPfL4ndJgXPWXXcDB5fpR5Pdz0R2xA2GwYHDxKWRq/etew//1dycasuY6OUJsbj6FFafsNMdSSmyGQQFnry14iYB/dZyusF4M5V+toiit0NNTjqI4HgPFXwUoPimppRyD2aMImXIwKBgQDJCS7DrgtPVgNaNJY/USl5iQ6tQFJeTITW84Cl2nyzhewA6UVwHHkiBsrlE81a9VryKiKtoEZ/OU+nQzbTwoQsT+CMCFpPb4M2lkTZUynKrnBhus8C6whARRNfFQgkNK9stloCywkgSKsrLC9BWtgGF7y9uetvXapLixbHMd383wKBgDP354+KyRIRJ4RquyY1S3FZ+bYb6D5quZFoPTHOO9w53ZzuMleMhFPZfZQJy3GFzZWX2VkpSRZeE+82paAUd/CMZ7csKSvF+t0qSMm3Uam8C4KH+7wZKPabCypMkW46BH8zcJ3ST5Vr7LzqR+K5o1/Fz/ieCexhEYOehIYjRy+TAoGBAJ3Xl+ALxtWDsx4gK9eK4gWKlvtwhTuE2MfsaBXQdhh+Dc6pWNutf2435xX1dkb0XXPFoXSxYqiBVwj8vQ+GqkAgdy17YWz9IQi681Ou+CEq1RHmmqKv5sqPcaY13S6QLywsAIAw6flvFPXQu0mVCge+m3Jbh37pC8xEaJ39iU4BAoGAGgllzW+TbDJKJX2Yeeck4DQlv1lCQJAMnt2HY4SikPVAs2T/NwQD043XRRzYnb2PoA2l4wtMLLVGGUP83pSSEKetgG1BUT/hAywwsxdmKSZyIzSGV4kwQP97GH69uTFKvpS+hczdWuhdJ3NtX55lDdifgKOcKbHmwggreso9dZs=-----END PRIVATE KEY-----";
+            var Test_publicKey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArA41mR6HjvKKECgpnFapb4zHZg+BbfMCbOgpgdL1NUg8Txsa9BnTVnE+ZJlbNv1omTLRT+KkDcQRF2TYfYGOHEDpN98EvaxPcP0otKbuaaX8pFh1VouQR5OAxwMiEbQ/RNkgQlXi9lzvRKbzia9qY1ExKO5sSRCcEzRo1e9R6E0Ut4QwmPjnIN+BNKYTsArkwkO5ZZFErvLwNBrGwpcNF1DfneBpBboVvj/KFF8UMGL4ekmH1sX4jUZ+VsWc9n7h/T55+d1Xiu6VzgQH/r3PJmpjq6qBbZ+BXkkGpwzHRrMJQGHqLimsDuklQDzFQrz7qJGjZDrLY9fqaiwB5NgbfQIDAQAB-----END PUBLIC KEY-----";
+
+            var service = new TokenService(Test_publicKey, Test_privateKey);
+            var TestUser = new User();
+
+            TestUser.UserName = "TestName";
+            TestUser.Role = UserRole.RegularUser;
+            TestUser.Id = new Guid("63927fce14b643e88245687e0036780f");
+            var serviceResult = await service.GenerateRefreshToken(TestUser);
+            Assert.True(serviceResult.IsSuccess);
+
+            string ans = serviceResult.Value;
+            _out.WriteLine(ans);
+        }
 
         [Fact]
         public async Task TokenService_Rsa_Keys_correct_test()

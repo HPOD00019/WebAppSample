@@ -18,8 +18,8 @@ namespace AuthService.Application.Services
         private readonly RSA _rsaEncrypter;
         private readonly JwtSecurityTokenHandler _tokenHandler;
 
-        public TokenService(string publicKey, string privateKey)
-        {
+        public TokenService(string privateKey, string publicKey )
+        { 
             _privateRsaKey = privateKey;
             _publicRsaKey = publicKey;
 
@@ -30,7 +30,7 @@ namespace AuthService.Application.Services
             _rsaEncrypter.ImportFromPem(_privateRsaKey);
         }
 
-        public async Task<Result<string>> GenerateAccessToken(string refreshToken)
+        public async Task<IResult<string>> GenerateAccessToken(string refreshToken)
         {
             var validationResult = this.ValidateRefreshToken(refreshToken);
             if (!validationResult.IsSuccess) return validationResult;
@@ -62,7 +62,7 @@ namespace AuthService.Application.Services
             return tokenResult;
         }
 
-        public async Task<Result<string>> GenerateRefreshToken(User user)
+        public async Task<IResult<string>> GenerateRefreshToken(User user)
         {
             var securityKey = new RsaSecurityKey(_rsaEncrypter);
 
