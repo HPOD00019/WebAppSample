@@ -1,3 +1,5 @@
+using GameEngineService.Infrastructure.Hubs;
+
 namespace GameEngineService.Api
 {
     public class Program
@@ -5,10 +7,15 @@ namespace GameEngineService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddSignalR();
+            
+            
+            
             var app = builder.Build();
 
             app.MapGet("/", () => "Hello World!");
-
+            app.MapHub<PlayerHub>("/GoinGame");
+            
             app.Run();
         }
     }
