@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameEngineService.Application\GameEngineService.Application.csproj" />
+    <ProjectReference Include="..\GameEngineService.Domain\GameEngineService.Domain.csproj" />
+    <ProjectReference Include="..\GameEngineService.Infrastructure\GameEngineService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

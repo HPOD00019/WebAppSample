@@ -5,10 +5,17 @@ namespace GameEngineService.Domain.Connections
 {
     public class ChessGameMessage
     {
-        public required Guid GameId { get; init; }
-        public required ChessMessageType MessageType { get; init; }
-        public required User Issuer { get; init; }
+        public int GameId { get; init; }
+        public ChessMessageType MessageType { get; init; }
+        public User Issuer { get; init; }
         public ChessMove? Move { get; set; }
+        public ChessGameMessage(int gameId, ChessMessageType type, User issuer, ChessMove? move)
+        {
+            GameId = gameId;
+            MessageType = type;
+            Issuer = issuer;
+            Move = move;
+        }
         
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using GameEngineService.Domain.Connections;
 using GameEngineService.Domain.Services;
+using GameEngineService.Infrastructure.DTOs;
 using Microsoft.AspNetCore.SignalR;
 
 namespace GameEngineService.Infrastructure.Hubs
@@ -13,9 +14,10 @@ namespace GameEngineService.Infrastructure.Hubs
             _socketService = socket;
         }
 
-        public async Task OnClientGameMessage (ChessGameMessage message)
+        public async Task OnClientGameMessage (ChessGameMessageDTO message)
         {
-            _socketService.HandleClientMessage (message);
+            var chessMessage = ChessGameMessageDTO.ToChessGameMessage(message);
+            _socketService.HandleClientMessage (chessMessage);
         }
 
         public async Task SendGameMessage(ChessGameMessage message)

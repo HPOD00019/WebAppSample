@@ -8,6 +8,10 @@ namespace GameEngineService.Domain.Entities
 {
     public class User
     {
-        public Guid Id { get; init; }
+        public int Id { get; set; }
+        public User(int id)
+        {
+            Id = id;
+        }   
     }
 }
