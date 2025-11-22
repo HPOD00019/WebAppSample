@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
-import {RegisterPage} from '@pages/Auth/RegisterPage';
+import { RegisterPage } from '@pages/Auth/RegisterPage';
 import { LoginPage } from '@pages/Auth';
+import { GamePage } from '@pages/gameRoom/GamePage';
 
 
 
@@ -12,5 +13,9 @@ export const router = createBrowserRouter([
     {
         path: '/login', 
         element: <LoginPage />
+    },
+    {
+        path: '/game', 
+        element: <GamePage />
     }
 ]);

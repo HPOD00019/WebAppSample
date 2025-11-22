@@ -12,7 +12,7 @@ import blackQueen from '@shared/pieceSets/black_queen.svg';
 
 import type { SquareProps } from '@features/chessboard/components/square';
 
-function App() {
+export function App() {
   const handleLoginSuccess = () => {
     console.log('Login success');
   }

@@ -12,8 +12,9 @@ export interface SquareProps extends React.HTMLAttributes<HTMLDivElement>{
 }
 
 export const Square = (props : SquareProps) => {
+
+    const [isHovered, setHover] = useState(false);
     if(props.onMouseEnter == null && props.onMouseExit == null){
-        const [isHovered, setHover] = useState(false);
         
         const handleMouseEnter = () => setHover(true);
         const handleMouseLeave = () => setHover(false);

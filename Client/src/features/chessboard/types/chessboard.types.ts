@@ -1,6 +1,6 @@
 import type { SquareProps } from "../components/square";
 
-type square_cooardinates = {
+export type square_cooardinates = {
     x: number;
     y: number;
 }
@@ -11,7 +11,6 @@ export type direction = { dx: number; dy: number };
 
 interface piece{
     currentLocation : square_cooardinates;
-    
 }
 export interface movePattern {
   directions: direction[];
@@ -20,6 +19,7 @@ export interface movePattern {
 }
 
 export interface pieceOnBoard {
+  isClickable: boolean | null;
   Position: coordinates;
   piece: pieceType;
   color: pieceColor;
@@ -30,6 +30,18 @@ export interface pieceOnBoard {
 export interface squareOnBoard extends SquareProps{
   Position: coordinates, 
   issuerId?: number
+}
+export interface ChessMove{
+  San: string;
+}
+export interface ChessMessage{
+  GameId: string;
+  MessageType: "SuggestDraw" | "Resign" | "Move";
+  Issuer: UserDTO;
+  Move: ChessMove | null;
+}
+export interface UserDTO{
+  Id: string;
 }
 
 interface piece_knight{
