@@ -1,7 +1,6 @@
 import type { RegisterCredentials } from "../types/auth.types";
-import type {FormInputFieldProps} from "@shared/ui/index";
-import { Button, Input } from "@shared/ui/index";
-import { useEffect, useState } from "react";
+import {  Input } from "@shared/ui/index";
+import { useState } from "react";
 import { useRegister } from "../hooks/useRegister";
 
 
@@ -9,7 +8,8 @@ export interface RegisterFormProps{
     onSuccess? : () => void;
 }
 
-export const RegisterForm = (props: RegisterFormProps) => {
+export const RegisterForm = () => {
+
     const [registerProperties, setRegisterProperties] = useState<RegisterCredentials>({
         email: '',
         password: '',

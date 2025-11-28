@@ -21,6 +21,10 @@ namespace GameEngineService.Application.ChessCore
             _board.Cancel();
             _history.Pop();
         }
+        public void Reset()
+        {
+            _board = new ChessBoard();
+        }
         public string GetCurrentPositionInFen()
         {
             string position = _board.ToFen();

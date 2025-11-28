@@ -87,14 +87,15 @@ export const fenToPieces = (fen: string): pieceOnBoard[] => {
         if (piece) {
           const x = fileIndex + 1;
           const y = rowIndex + 1;
-          
-          pieces.push({
+          const _piece: pieceOnBoard = {
             Position: { x, y },
             piece: piece.type,
             color: piece.color,
             svgSource: "",
+            isClickable: null,
             pieceId: generateId(),
-          });
+          }
+          pieces.push(_piece);
         }
         fileIndex++;
       } else {

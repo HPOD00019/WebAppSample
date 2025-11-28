@@ -11,11 +11,13 @@ export const LoginPage : React.FC<LoginPageProps> = ({
     const handleLoginSuccess = () => {
         onSuccess?.();
     }
+    handleLoginSuccess();
     return (
         <AuthLayout 
             title='Walcome back!'
             subtitle='Please sign in to your account'
             footerLinkText='Sign up'
+            
         >
             <div className='login-page__content'>
                 <LoginForm/>

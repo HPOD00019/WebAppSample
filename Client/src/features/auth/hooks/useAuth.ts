@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { authApi } from '../api/auth-api';
-import type { LoginCredentials, AuthState, User, AuthResponse } from '../types/auth.types'
+import type { LoginCredentials, AuthState} from '../types/auth.types'
 
 
 export const useAuth = () => {
@@ -25,7 +25,7 @@ export const useAuth = () => {
 
     const login = async (credentials: LoginCredentials) => {
         setState((prev) => ({...prev, isLoading : true, error : null }));
-        const {user, refreshToken} = await authApi.login(credentials);
+        const {user} = await authApi.login(credentials);
         setState({
             user,
             isLoading: false,

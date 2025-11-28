@@ -14,7 +14,7 @@ export const LoginForm : React.FC<LoginFormProps> = ({onSuccess}) => {
         email : '',
     });
     
-    const {login, user, isLoading, isAuthenticated} = useAuth();
+    const {login, isLoading,} = useAuth();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

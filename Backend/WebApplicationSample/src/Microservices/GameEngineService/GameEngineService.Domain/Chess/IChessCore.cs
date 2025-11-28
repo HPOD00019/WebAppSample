@@ -3,6 +3,7 @@ namespace GameEngineService.Domain.Chess
 {
     public interface IChessCore 
     {
+        void Reset();
         bool ValidateMove(ChessMove move);
         bool IsCheck(ChessMove move);
         bool IsMate(ChessMove move);

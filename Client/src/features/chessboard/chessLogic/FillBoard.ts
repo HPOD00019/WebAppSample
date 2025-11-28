@@ -1,6 +1,6 @@
 import type { pieceColor, pieceType  } from '../types/chessboard.types'
 
-export const FillBoard = (positionFEN : string) => {
+export const FillBoard = () => {
     
 }
 

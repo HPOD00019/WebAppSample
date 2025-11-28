@@ -38,11 +38,10 @@ export const useRegister = () => {
                             message: r_error.message,
                         };
                 }
-                
                 changeRequestState((prev) => ({
                     ...prev,
                     isLoading: false,
-                    error: ResponseError,
+                    error: ResponseError.code.toString(),
                 }));
             }   
         }

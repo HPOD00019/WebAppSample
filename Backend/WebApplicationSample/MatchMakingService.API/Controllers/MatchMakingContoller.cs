@@ -1,31 +1,14 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using AuthService.Application.Commands.Register;
-using AuthService.Api.DTOs;
-using AuthService.Domain.Services;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using AuthService.Application.Commands.GenerateToken;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AuthService.Api.Controllers
+namespace MatchMakingService.API.Controllers
 {
     [ApiController]
     [Route("/[controller]")]
-    public class AuthController : ControllerBase
+    public class MatchMakingContoller : ControllerBase
     {
-        private IMediator _mediator;
-        private ITokenService _tokenService;
-
-        public AuthController(IMediator mediator, ITokenService tokenService)
-        {
-            _mediator = mediator;
-            _tokenService = tokenService;
-        }
-
-
-
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> RegisterUser([FromBody] UserDTO user)
+        public async Task<IActionResult> RegisterUser([FromBody] User user)
         {
 
             var request = new RegisterUserCommand()
@@ -52,7 +35,7 @@ namespace AuthService.Api.Controllers
                     var accessTokenResult = await _mediator.Send(accessTokenRequest);
                     if (accessTokenResult.IsSuccess)
                     {
-                        var response = new UserRegistrationResponse 
+                        var response = new UserRegistrationResponse
                         {
                             UserName = user.UserName,
                             Email = user.Email,
@@ -70,12 +53,9 @@ namespace AuthService.Api.Controllers
             }
             return Ok();
         }
-
-        [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromBody] UserDTO user)
+        public IActionResult Index()
         {
-            return BadRequest("Not yet");
+            return Ok();
         }
     }
 }

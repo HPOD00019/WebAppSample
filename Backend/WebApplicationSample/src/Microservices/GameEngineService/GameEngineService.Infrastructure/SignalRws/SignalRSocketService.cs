@@ -1,5 +1,7 @@
-﻿using GameEngineService.Domain.Connections;
+﻿using Chess;
+using GameEngineService.Domain.Connections;
 using GameEngineService.Domain.Services;
+using GameEngineService.Infrastructure.DTOs;
 using GameEngineService.Infrastructure.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
@@ -11,9 +13,9 @@ namespace GameEngineService.Infrastructure.SignalRws
 
         public event EventHandler<ChessGameMessage> OnclientMessage;
 
-        public SignalRSocketService()
+        public SignalRSocketService(IHubContext<PlayerHub> players)
         {
-
+            _players = players;
         }
 
         public void HandleClientMessage(ChessGameMessage message)
@@ -23,7 +25,17 @@ namespace GameEngineService.Infrastructure.SignalRws
 
         public void SendMessage(ChessGameMessage message)
         {
-            _players.Clients.Group(message.GameId.ToString()).SendAsync("OnServerMessage", message);
+            var g = _players.Clients.Group("TEST_ROOM");
+            var user = new UserDTO(message.Issuer.Id.ToString());
+            var move = new ChessMoveDTO(message.Move.GetSanNotation());
+            var msg = new ChessGameMessageDTO(message.GameId.ToString(), message.MessageType.ToString(), user, move);
+            g.SendAsync("OnServerMessage", msg);
+        }
+
+        public void SendPosition(string posision)
+        {
+            var g = _players.Clients.Group("TEST_ROOM");
+            g.SendAsync("ReceiveNewPosition", posision);
         }
     }
 }

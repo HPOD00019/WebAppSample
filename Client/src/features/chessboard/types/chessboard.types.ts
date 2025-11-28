@@ -9,9 +9,6 @@ export type pieceColor = 'white' | 'black';
 export type coordinates = { x: number; y: number };
 export type direction = { dx: number; dy: number };
 
-interface piece{
-    currentLocation : square_cooardinates;
-}
 export interface movePattern {
   directions: direction[];
   maxSteps?: number; 
@@ -40,34 +37,9 @@ export interface ChessMessage{
   Issuer: UserDTO;
   Move: ChessMove | null;
 }
+
+
 export interface UserDTO{
   Id: string;
 }
 
-interface piece_knight{
-
-}
-
-interface piece_pawn{
-    
-}
-
-interface piece_bishop{
-    
-}
-
-interface piece_king{
-    
-}
-
-interface piece_rook{
-    
-}
-
-interface board{
-
-}
-
-interface square{
-    
-}

@@ -16,7 +16,7 @@ export const Piece = (props : PieceProps) => {
     
     const _style = props.isClickable==false? {...props.style, pointerEvents: 'none' as const} : {...props.style}
 
-    const {hasFocus, setElementRef} = useFocus(props.onPieceFocus, props.onPieceLoseFocus);
+    const {setElementRef} = useFocus(props.onPieceFocus, props.onPieceLoseFocus);
     const viewBoxSettings = `0 0 100 100`;
     return (
         <div 

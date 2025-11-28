@@ -20,9 +20,8 @@ namespace GameEngineService.Application.Connections
 
         public void SendMessage(ChessGameMessage message)
         {
-            throw new NotImplementedException();
+            _socketService.SendMessage(message);
         }
-
         private void MessageReceivedHandler(object? sender,  ChessGameMessage message)
         {
             switch (message.MessageType)
@@ -43,7 +42,12 @@ namespace GameEngineService.Application.Connections
 
         public void Dispose()
         {
-            _socketService.OnclientMessage -= this.MessageReceivedHandler;
+            if(_socketService != null) _socketService.OnclientMessage -= this.MessageReceivedHandler;
+        }
+
+        public void SendPosition(string position)
+        {
+            _socketService.SendPosition(position);
         }
     }
 }

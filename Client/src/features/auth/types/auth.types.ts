@@ -1,5 +1,3 @@
-import type { BaseError } from "@shared/lib/error";
-
 
 export interface User{
     userId : string;
@@ -26,7 +24,7 @@ export interface AuthState{
     user : User | null;
     isAuthenticated : boolean;
     isLoading : boolean;
-    error : BaseError | null;
+    error : string | null;
 }
 
 export interface RegisterResponse{

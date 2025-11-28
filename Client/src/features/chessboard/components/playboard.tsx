@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import type {pieceOnBoard, squareOnBoard} from '../types/chessboard.types.ts';
 import {Piece} from './piece.tsx';
 import '../styles/board.css'
-import {findPossibleMoves} from '../chessLogic/findPossibleMoves.ts'
 import {Square} from './square.tsx';
 import {generateId} from '@shared/utils/generateId.ts';
 import {useChessGame} from '../hooks/useChessGame.ts';
@@ -13,24 +12,41 @@ import {attachPiecePicture} from "../utils/attachPiecePicture.ts";
 export interface BoardProps{
     boardImgSrc : string;
     piecesSetPath: string;
+
+
+    isWhite?: boolean;
+
+
     onPositionChange: ( changes : pieceOnBoard[] ) => void;
     
 }
 
 
 export const PlayBoard  = (props : BoardProps) => {
-    const {boardImgSrc} = props;
-    const [gameState, ChangeGameState, FindMoves] = useChessGame();
-    const [squares, SetSquares] = useState<squareOnBoard[]>([]);
     const [pieces, SetPieces] = useState<pieceOnBoard[]>([]);
-    console.log(squares);
+    const colorReceivedHandler = (_isWhite: boolean) => {
+        SetPieces(prev =>{
+            const n = [];
+            for(const p of prev){
+                n.push({...p});
+            }
+            return n;
+        });
+        SetColor(_isWhite);
+    }
+
+    const {boardImgSrc} = props;
+    const [isWhite, SetColor] = useState(props.isWhite);
+    const [gameState, ChangeGameState, FindMoves] = useChessGame(colorReceivedHandler);
+    const [squares, SetSquares] = useState<squareOnBoard[]>([]);
+
 
     useEffect(() => {
         SetPieces(prev => {
             const _pieces = updatePieces(prev, gameState);
             return _pieces;
         });
-        
+        SetSquares([]);
     }, [gameState]);
 
     useEffect(() => {
@@ -45,10 +61,9 @@ export const PlayBoard  = (props : BoardProps) => {
         
     }, []);
 
-
+    
     const pieceFocusedHandler = (item : pieceOnBoard) => {
         const additionalSquares: squareOnBoard[] = [];
-        
         for (const move of FindMoves(item.Position)){
             additionalSquares.push({
                 squareId: generateId(),
@@ -57,34 +72,11 @@ export const PlayBoard  = (props : BoardProps) => {
                 issuerId: item.pieceId,
             });
         }
-        SetPieces(prev => {
-            return prev.map(piece => {
-                const foundSquare = additionalSquares.find(square => 
-                piece.Position.x === square.Position.x && 
-                piece.Position.y === square.Position.y
-                );
-                
-                if (foundSquare) {
-                return {...piece, isClickable: false};
-                }
-                
-                return piece;
-            });
-        });
         SetSquares(prev => [...prev.filter((item) => item.state!='move-destination-square'), ...additionalSquares]);
         
     }
 
     const pieceLoseFocuseHandler = (piece: pieceOnBoard) => {
-        SetPieces(prev => {
-            return prev.map(piece => {
-                if (piece.isClickable == false) {
-                    console.log("ASDASDASDDS")
-                    return {...piece, isClickable: true};
-                }
-                return piece;
-            });
-        });
         SetSquares(prev => prev.filter((item) => item.issuerId != piece.pieceId));
     }
     
@@ -103,9 +95,10 @@ export const PlayBoard  = (props : BoardProps) => {
             justifyContent: 'center',
             alignContent: 'center',
             position: 'relative',
-            width: '1000px',
-            height: '1000px',
-            margin: '0 auto'
+            width: '900px',
+            height: '900px',
+            margin: '0 auto',
+            transform: isWhite ? 'none' : 'rotate(180deg)',
             }}
         >
             <img 
@@ -126,18 +119,19 @@ export const PlayBoard  = (props : BoardProps) => {
             {pieces.map(item => {
                 return(
                     <Piece 
-                        key = {item.pieceId}
+                        key={`${item.pieceId}-${Date.now()}`}
                         pieceId = {item.pieceId}
                         side = {item.color}
                         kind = {item.piece}
                         pieceSrc = {item.svgSource}
-                        isClickable = {item.isClickable}
+                        isClickable = {isWhite === (item.color === 'white')}
                         onPieceFocus={() => pieceFocusedHandler(item)}
                         onPieceLoseFocus={() => pieceLoseFocuseHandler(item)}
                         style={{
                             zIndex: 5,
                             gridRow: item.Position.y ,
                             gridColumn: item.Position.x,
+                            transform: isWhite ? 'none' : 'rotate(180deg)',
                         }}
                     />
                 )

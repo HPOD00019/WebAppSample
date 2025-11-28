@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
         element: <LoginPage />
     },
     {
-        path: '/game', 
+        path: '', 
         element: <GamePage />
     }
 ]);

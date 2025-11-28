@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GameEngineService.Domain.Connections;
+using GameEngineService.Domain.Entities;
 
 namespace GameEngineService.Domain.Services
 {
@@ -12,5 +13,6 @@ namespace GameEngineService.Domain.Services
         public event EventHandler<Tmessage> OnclientMessage;
         public void SendMessage(Tmessage message);
         public void HandleClientMessage(Tmessage message);
+        public void SendPosition(string posision);
     }
 }

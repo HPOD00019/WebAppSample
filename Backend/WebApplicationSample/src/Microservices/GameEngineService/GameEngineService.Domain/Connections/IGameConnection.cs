@@ -8,6 +8,6 @@ namespace GameEngineService.Domain.Connections
         public event EventHandler<ChessGameMessage> OnPlayerResign;
 
         public void SendMessage(ChessGameMessage message);  
-
+        public void SendPosition(string position);
     }
 }

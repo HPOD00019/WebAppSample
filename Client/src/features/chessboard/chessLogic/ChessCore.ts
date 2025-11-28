@@ -28,10 +28,27 @@ export class ChessCore {
       return { success: false, error: (error as Error).message };
     }
   }
+  public makeMoveSan(san: string){
+    try {
+      const result = this.game.move(san);
+      
+      if (result) {
+        return { success: true, san: result.san };
+      } 
+      else {
+        return { success: false, error: 'Недопустимый ход' };
+      }
+    } 
+    catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
   public getFen(): string {
     return this.game.fen();
   }
-  
+  public SetPosition(fen: string){
+    this.game = new Chess(fen);
+  }
   public reset(): void {
     this.game.reset();
   }
