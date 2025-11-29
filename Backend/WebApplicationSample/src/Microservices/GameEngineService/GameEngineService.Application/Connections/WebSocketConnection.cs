@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.CompilerServices;
 using GameEngineService.Domain.Connections;
 using GameEngineService.Domain.Services;
 
@@ -7,23 +8,24 @@ namespace GameEngineService.Application.Connections
     public class WebSocketConnection : IGameConnection, IDisposable
     {
         private ISocketService<ChessGameMessage> _socketService;
-
+        private int _id;
         public event EventHandler<ChessGameMessage> OnPlayerMove;
         public event EventHandler<ChessGameMessage> OnPlayerSuggestDraw;
         public event EventHandler<ChessGameMessage> OnPlayerResign;
 
-        public WebSocketConnection(ISocketService<ChessGameMessage> socket)
+        public WebSocketConnection(ISocketService<ChessGameMessage> socket, int id)
         {
+            _id = id;
             _socketService = socket;
-            _socketService.OnclientMessage += this.MessageReceivedHandler;
+            _socketService.SubscribeOnClientMessage(id, MessageReceivedHandler);
         }
 
         public void SendMessage(ChessGameMessage message)
         {
-            throw new NotImplementedException();
+            _socketService.SendMessage(message);
         }
 
-        private void MessageReceivedHandler(object? sender,  ChessGameMessage message)
+        private void MessageReceivedHandler(ChessGameMessage message)
         {
             switch (message.MessageType)
             {
@@ -43,7 +45,8 @@ namespace GameEngineService.Application.Connections
 
         public void Dispose()
         {
-            _socketService.OnclientMessage -= this.MessageReceivedHandler;
+
+
         }
     }
 }

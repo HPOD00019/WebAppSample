@@ -12,6 +12,10 @@ namespace GameEngineService.Infrastructure.DTOs
         public string Id { get; set; }
         public UserDTO() { }
         public UserDTO(string id) { Id = id; }
+        public UserDTO(User user)
+        {
+            Id = user.Id.ToString();
+        }
         public static User ToUser(UserDTO dto)
         {
             var id = Int32.Parse(dto.Id);

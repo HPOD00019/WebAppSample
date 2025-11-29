@@ -9,7 +9,8 @@ namespace GameEngineService.Domain.Services
 {
     public interface ISocketService<Tmessage>
     {
-        public event EventHandler<Tmessage> OnclientMessage;
+        public void UnSubscribeOnClientMessage(int id);
+        public void SubscribeOnClientMessage(int id, Action<ChessGameMessage> handler);
         public void SendMessage(Tmessage message);
         public void HandleClientMessage(Tmessage message);
     }

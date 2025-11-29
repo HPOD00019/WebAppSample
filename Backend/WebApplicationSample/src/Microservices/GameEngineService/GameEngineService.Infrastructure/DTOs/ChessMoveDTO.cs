@@ -7,6 +7,10 @@ namespace GameEngineService.Infrastructure.DTOs
     {
         public string San { get; set; }
         public ChessMoveDTO() { }
+        public ChessMoveDTO(ChessMove? move)
+        {
+            San = move?.GetSanNotation();
+        }
         public ChessMoveDTO(string san)
         {
             San = san;

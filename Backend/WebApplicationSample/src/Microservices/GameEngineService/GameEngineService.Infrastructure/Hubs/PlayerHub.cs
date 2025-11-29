@@ -1,4 +1,5 @@
 ﻿
+using GameEngineService.Domain;
 using GameEngineService.Domain.Connections;
 using GameEngineService.Domain.Services;
 using GameEngineService.Infrastructure.DTOs;
@@ -13,11 +14,11 @@ namespace GameEngineService.Infrastructure.Hubs
         {
             _socketService = socket;
         }
-
+        
         public async Task OnClientGameMessage (ChessGameMessageDTO message)
         {
             var chessMessage = ChessGameMessageDTO.ToChessGameMessage(message);
-            _socketService.HandleClientMessage (chessMessage);
+            _socketService.HandleClientMessage(chessMessage);
         }
 
         public async Task SendGameMessage(ChessGameMessage message)
