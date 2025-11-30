@@ -15,9 +15,11 @@ namespace AuthMiddleware.Services
         }
         public async Task<AuthResult> ValidateAccessToken(string accessToken)
         {
-            var response = await _httpClient.GetAsync($"{_authServiceTokenVerifyUrl}{accessToken}");
+            var url = $"{_authServiceTokenVerifyUrl}{accessToken}";
+            var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<AuthResult>(content);
+            var ans = JsonSerializer.Deserialize<AuthResult>(content);
+            return ans;
         } 
 
     }

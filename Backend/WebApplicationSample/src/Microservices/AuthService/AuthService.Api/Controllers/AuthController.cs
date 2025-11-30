@@ -5,6 +5,7 @@ using AuthService.Api.DTOs;
 using AuthService.Domain.Services;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using AuthService.Application.Commands.GenerateToken;
+using AuthMiddleware.Entities;
 
 namespace AuthService.Api.Controllers
 {
@@ -21,7 +22,15 @@ namespace AuthService.Api.Controllers
             _tokenService = tokenService;
         }
 
-
+        [HttpGet]
+        [Route("verifyAccessToken")]
+        public IActionResult VerifyToken([FromQuery] string token)
+        {
+            var response = new AuthResult();
+            response.IsValid = true;
+            response.UserId = 1488;
+            return Ok(response);
+        }
 
         [HttpPost]
         [Route("Register")]
@@ -75,7 +84,7 @@ namespace AuthService.Api.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserDTO user)
         {
-            var request = new 
+            return Ok();
         }
     }
 }
