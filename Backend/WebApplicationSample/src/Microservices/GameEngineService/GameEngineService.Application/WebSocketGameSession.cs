@@ -8,11 +8,11 @@ namespace GameEngineService.Application
     {
         private IGameConnection _connection;
         private IChessCore _chessCore;
-
+        
         private User _blackPlayer;
         private User _whitePlayer;
 
-        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Id { get; set ; }
 
         public WebSocketGameSession(IGameConnection connection, IChessCore chessCore)
         {

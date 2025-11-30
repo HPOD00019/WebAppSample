@@ -33,6 +33,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineService.Domain", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngineService.Infrastructure", "src\Microservices\GameEngineService\GameEngineService.Infrastructure\GameEngineService.Infrastructure.csproj", "{7D049342-4957-41BC-90FA-C5E9681D4031}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MatchMakingService", "MatchMakingService", "{F7790807-BD43-4DBC-BA68-A35D765DF277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMakingService.Api", "src\Microservices\MatchMakingService\MatchMakingService.Api\MatchMakingService.Api.csproj", "{18FAAB0D-BFC6-4ABD-87D3-946449B11973}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMakingService.Application", "MatchMakingService.Application\MatchMakingService.Application.csproj", "{7F6462DF-F66D-48C5-B5CC-70F60C1624F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMakingService.Domain", "MatchMakingService.Domain\MatchMakingService.Domain.csproj", "{45A47997-5086-4F43-992C-EA02D80F9F96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatchMakingService.Infrastructure", "MatchMakingService.Infrastructure\MatchMakingService.Infrastructure.csproj", "{77A2D619-F525-4E7D-9B49-154727CA2EB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +85,22 @@ Global
 		{7D049342-4957-41BC-90FA-C5E9681D4031}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D049342-4957-41BC-90FA-C5E9681D4031}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D049342-4957-41BC-90FA-C5E9681D4031}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18FAAB0D-BFC6-4ABD-87D3-946449B11973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FAAB0D-BFC6-4ABD-87D3-946449B11973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FAAB0D-BFC6-4ABD-87D3-946449B11973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FAAB0D-BFC6-4ABD-87D3-946449B11973}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6462DF-F66D-48C5-B5CC-70F60C1624F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6462DF-F66D-48C5-B5CC-70F60C1624F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6462DF-F66D-48C5-B5CC-70F60C1624F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6462DF-F66D-48C5-B5CC-70F60C1624F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A47997-5086-4F43-992C-EA02D80F9F96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A47997-5086-4F43-992C-EA02D80F9F96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A47997-5086-4F43-992C-EA02D80F9F96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A47997-5086-4F43-992C-EA02D80F9F96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77A2D619-F525-4E7D-9B49-154727CA2EB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77A2D619-F525-4E7D-9B49-154727CA2EB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77A2D619-F525-4E7D-9B49-154727CA2EB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77A2D619-F525-4E7D-9B49-154727CA2EB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +120,11 @@ Global
 		{3C424CFC-C87C-44F1-91D3-85A560F2FE24} = {20F53D0E-A62A-480F-BE0D-920F65B79C7C}
 		{DD16B5FE-8BDB-48F5-B465-E177C120E147} = {20F53D0E-A62A-480F-BE0D-920F65B79C7C}
 		{7D049342-4957-41BC-90FA-C5E9681D4031} = {20F53D0E-A62A-480F-BE0D-920F65B79C7C}
+		{F7790807-BD43-4DBC-BA68-A35D765DF277} = {004DFA40-E922-4ECE-9C02-E7E041C0C39B}
+		{18FAAB0D-BFC6-4ABD-87D3-946449B11973} = {F7790807-BD43-4DBC-BA68-A35D765DF277}
+		{7F6462DF-F66D-48C5-B5CC-70F60C1624F5} = {F7790807-BD43-4DBC-BA68-A35D765DF277}
+		{45A47997-5086-4F43-992C-EA02D80F9F96} = {F7790807-BD43-4DBC-BA68-A35D765DF277}
+		{77A2D619-F525-4E7D-9B49-154727CA2EB4} = {F7790807-BD43-4DBC-BA68-A35D765DF277}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0D95858-FA18-42E7-A066-9D7E8B9914A8}
