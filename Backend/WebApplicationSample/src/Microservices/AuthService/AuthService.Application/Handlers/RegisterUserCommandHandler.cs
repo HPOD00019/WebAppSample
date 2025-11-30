@@ -39,7 +39,7 @@ namespace AuthService.Application.Handlers
 
 
             var Id = await _userRepository.RegisterUser(user);
-            var result = Result<Guid>.OnSuccess(Id);
+            var result = Result<int>.OnSuccess(Id);
             return result;
         }
     }

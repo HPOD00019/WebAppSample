@@ -14,26 +14,31 @@ namespace AuthService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetUserById(Guid TargetId)
+        public async Task<User?> GetUserById(int TargetId)
         {
             var user = _context.Users.FirstOrDefault(user =>  user.Id == TargetId );
             return user;
 
         }
 
-        public async Task<Guid> RegisterUser(User user)
+        public async Task<int> RegisterUser(User _user)
         {
-
-            if(user.Id == Guid.Empty)
+            var user = new User(_user);
+            if(user.Id == null)
             {
-                var id = Guid.NewGuid();
-                user.Id = id;
+                var u = _context.Users.MaxBy(u => u.Id);
+                if (u == null)
+                {
+                    user.Id = 1;
+                }
+                user.Id = u.Id + 1;
             }
 
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return user.Id;
+            return user.Id.Value;
         }
+
     }
 }

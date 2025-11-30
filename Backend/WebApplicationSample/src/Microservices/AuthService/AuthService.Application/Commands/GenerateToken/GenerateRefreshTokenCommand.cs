@@ -7,6 +7,6 @@ namespace AuthService.Application.Commands.GenerateToken
 {
     public record GenerateRefreshTokenCommand : IRequest<IResult<string>>
     {
-        [Required] public Guid UserId { get; init; }
+        [Required] public int UserId { get; init; }
     }
 }
