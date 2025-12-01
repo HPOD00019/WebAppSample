@@ -8,7 +8,7 @@ using AuthService.Application.Services;
 
 namespace AuthService.Application.Handlers
 {
-    class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult<Guid>>
+    class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, IResult<int>>
     {
         private IUserRepository _userRepository;
         private IPasswordHasher _passwordHashService;
@@ -21,7 +21,7 @@ namespace AuthService.Application.Handlers
 
  
 
-        public async Task<IResult<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<IResult<int>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = new User();
 

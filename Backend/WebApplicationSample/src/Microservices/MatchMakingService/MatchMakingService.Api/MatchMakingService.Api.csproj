@@ -13,7 +13,11 @@
     <ProjectReference Include="..\MatchMakingService.Infrastructure\MatchMakingService.Infrastructure.csproj" />
 
 	<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+
+	<PackageReference Include="StackExchange.Redis" Version="2.10.1" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+	<PackageReference Include="MediatR" Version="11.1.0" />
+	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
   </ItemGroup>
 
 </Project>

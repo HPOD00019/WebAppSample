@@ -41,7 +41,7 @@ namespace MatchMakingService.Api
             });
 
             builder.Services.AddHttpClient();
-            builder.Services.AddAuthService("http://auth-service:5000/api/auth/verify?token=");
+            builder.Services.AddAuthService("http://localhost:5016/Auth/verifyAccessToken?token=");
             var app = builder.Build();
 
             app.UseSwagger();

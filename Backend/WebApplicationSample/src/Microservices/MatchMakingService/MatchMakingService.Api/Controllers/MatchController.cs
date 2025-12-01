@@ -7,10 +7,9 @@ namespace MatchMakingService.Api.Controllers
     public class MatchController : ControllerBase
     {
         [Route("NewGame")]
-        [HttpPost]
+        [HttpGet]
         public IActionResult RequestNewMatch()
         {
-            
             return Ok();
         }
     }

@@ -6,6 +6,7 @@ using AuthService.Domain.Services;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using AuthService.Application.Commands.GenerateToken;
 using AuthMiddleware.Entities;
+using System.Text.Json;
 
 namespace AuthService.Api.Controllers
 {
@@ -29,6 +30,8 @@ namespace AuthService.Api.Controllers
             var response = new AuthResult();
             response.IsValid = true;
             response.UserId = 1488;
+
+            
             return Ok(response);
         }
 

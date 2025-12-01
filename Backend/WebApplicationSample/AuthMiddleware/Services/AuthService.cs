@@ -18,7 +18,11 @@ namespace AuthMiddleware.Services
             var url = $"{_authServiceTokenVerifyUrl}{accessToken}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
-            var ans = JsonSerializer.Deserialize<AuthResult>(content);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var ans = JsonSerializer.Deserialize<AuthResult>(content, options);
             return ans;
         } 
 
