@@ -1,4 +1,4 @@
-﻿namespace AuthService.Api.DTOs
+﻿namespace MatchMakingService.Api.DTOs
 {
     public class ApiResponse
     {

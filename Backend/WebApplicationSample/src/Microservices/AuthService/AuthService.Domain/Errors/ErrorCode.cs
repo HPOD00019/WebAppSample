@@ -5,5 +5,6 @@ namespace AuthService.Domain.Errors
     {
         NoExceptions,
         RefreshTokenInvalid,
+        NoUserFound,
     }
 }
