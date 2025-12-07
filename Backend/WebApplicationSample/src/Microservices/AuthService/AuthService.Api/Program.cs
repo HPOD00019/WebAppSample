@@ -3,6 +3,8 @@ using AuthService.Domain.Services;
 using AuthService.Infrastructure;
 using AuthService.Application.Services;
 using MediatR;
+using AuthService.Api.Urls;
+using AuthService.Api.MessageServices;
 
 
 namespace AuthService.Api
@@ -12,6 +14,7 @@ namespace AuthService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.WebHost.UseUrls("http://localhost:5001");
 
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
@@ -28,7 +31,10 @@ namespace AuthService.Api
 
             });
 
-
+            builder.Services.Configure<ServiceSettings>(builder.Configuration.GetSection("Services"));
+            builder.Services.AddTransient<IMessageService, HttpMessageService>();
+            builder.Services.AddHttpClient();
+            
             builder.Services.AddTransient<IMediator, Mediator>();
             builder.Services.AddMediatR(typeof(Program).Assembly, typeof(RegisterUserCommand).Assembly);
 

@@ -13,7 +13,8 @@ namespace AuthMiddleware.Middleware
             "/api-docs",
             "/favicon.ico",
             "/",
-            "/health"
+            "/health",
+            "/User/Register"
         };
         public AuthMiddleware(RequestDelegate nextDelegate)
         {

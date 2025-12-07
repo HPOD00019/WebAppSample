@@ -29,7 +29,39 @@ namespace AuthService.Application.Services
             _rsaEncrypter.ImportFromPem(_publicRsaKey);
             _rsaEncrypter.ImportFromPem(_privateRsaKey);
         }
+        public async Task<IResult<User>> ValidateAccessToken(string accessToken)
+        {
+            try
+            {
+                var publicKey = new RsaSecurityKey(_rsaEncrypter);
+                var validationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = publicKey,
+                    ValidateIssuerSigningKey = true, 
+                    ValidateLifetime = false,        
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                };
 
+                var principal = _tokenHandler.ValidateToken(accessToken, validationParameters, out var validatedToken);
+                var userId = principal.Claims.ToList<Claim>()[0].Value;
+                //var userId = principal.FindFirst(JwtRegisteredClaimNames.Sub) ?? principal.FindFirst("sub");
+                if (userId == null)
+                {
+                    return Result<User>.OnFailure(new Error(ErrorCode.AccessTokenInvalid));
+                }
+                var user = new User
+                {
+                    Id = Int32.Parse(userId)
+                };
+
+                return Result<User>.OnSuccess(user);
+            }
+            catch (SecurityTokenException)
+            {
+                return Result<User>.OnFailure(new Error(ErrorCode.AccessTokenInvalid));
+            }
+        }
         public async Task<IResult<string>> GenerateAccessToken(string refreshToken)
         {
             var validationResult = this.ValidateRefreshToken(refreshToken);
@@ -119,6 +151,7 @@ namespace AuthService.Application.Services
                 return result;
             }
         }
+
     }
 }
 

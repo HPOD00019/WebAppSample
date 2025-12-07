@@ -13,6 +13,8 @@
     <ProjectReference Include="..\GameEngineService.Application\GameEngineService.Application.csproj" />
     <ProjectReference Include="..\GameEngineService.Domain\GameEngineService.Domain.csproj" />
     <ProjectReference Include="..\GameEngineService.Infrastructure\GameEngineService.Infrastructure.csproj" />
+	<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+	<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

@@ -10,6 +10,8 @@ namespace GameEngineService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.WebHost.UseUrls("http://localhost:5002");
             builder.Services.AddScoped<ISocketService<ChessGameMessage>, SignalRSocketService>();
             builder.Services.AddSignalR(hubOptions =>
             {

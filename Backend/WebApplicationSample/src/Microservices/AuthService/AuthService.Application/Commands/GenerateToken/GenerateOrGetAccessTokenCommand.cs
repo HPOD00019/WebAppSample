@@ -9,7 +9,7 @@ using MediatR;
 
 namespace AuthService.Application.Commands.GenerateToken
 {
-    public record GenerateAccessTokenCommand : IRequest<IResult<string>>
+    public record GenerateOrGetAccessTokenCommand : IRequest<IResult<string>>
     {
         [Required] public string RefreshToken { get; init; }
 

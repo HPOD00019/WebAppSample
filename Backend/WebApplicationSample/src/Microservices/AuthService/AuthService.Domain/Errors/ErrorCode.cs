@@ -6,5 +6,9 @@ namespace AuthService.Domain.Errors
         NoExceptions,
         RefreshTokenInvalid,
         NoUserFound,
+        AccessTokenInvalid,
+        UserNameExists,
+        UserNameInvalid,
+        PasswordInvalid,
     }
 }

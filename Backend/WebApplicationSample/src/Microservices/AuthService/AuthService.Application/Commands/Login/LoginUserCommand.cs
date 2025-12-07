@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AuthService.Application.Commands.Register
 {
-    public record LoginUserCommand : IRequest<IResult<User>>
+    public record LoginUserCommand : IRequest<IResult<string>>
     {
         [Required] public string UserName { get; init; }
         [Required] public string Password { get; init; }

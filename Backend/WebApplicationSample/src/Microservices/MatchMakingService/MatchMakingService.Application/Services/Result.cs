@@ -1,5 +1,7 @@
 ﻿
 
+using MatchMakingService.Domain.Entities;
+
 namespace MatchMakingService.Application.Services
 {
     public class Result<T> : IResult<T>

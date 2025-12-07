@@ -20,7 +20,8 @@ namespace MatchMakingService.Api.HttpClientsServices
         public async Task<User> GetUser(int id)
         {
             var endpointAddress = _settings.AuthServiceGetUserById;
-            var response = await _httpClient.GetAsync($"{endpointAddress}?{id}");
+            var requestUrl = $"{endpointAddress}?id={id}";
+            var response = await _httpClient.GetAsync(requestUrl);
             var content = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
@@ -29,7 +30,7 @@ namespace MatchMakingService.Api.HttpClientsServices
             var ans = JsonSerializer.Deserialize<ApiResponse>(content, options);
             if(ans.Success == true)
             {
-                var user = ans.Data as User;
+                var user = JsonSerializer.Deserialize<User>(JsonSerializer.Serialize(ans.Data), options);
                 return user;
             }
             else

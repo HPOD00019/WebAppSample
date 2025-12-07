@@ -16,16 +16,16 @@ namespace AuthService.Api.Controllers
             _mediator = mediator;
         }
 
-        [Route("/GetPlayer")]
-        [HttpGet]
+        [HttpGet("GetPlayer")]
         public async Task<IActionResult> GetPlayer([FromQuery] int id)
         {
             var query = new GetUserAsPlayerQuery
             {
                 userId = id
             };
+
             var result = await _mediator.Send(query);
-            if(result.IsSuccess)
+            if (result.IsSuccess)
             {
                 var response = new ApiResponse
                 {
@@ -51,7 +51,6 @@ namespace AuthService.Api.Controllers
                 };
                 return BadRequest(response);
             }
-            return Ok();
         }
     }
 }

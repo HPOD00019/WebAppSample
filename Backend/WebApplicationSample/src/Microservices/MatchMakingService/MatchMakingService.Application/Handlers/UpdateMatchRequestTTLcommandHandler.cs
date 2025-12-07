@@ -8,9 +8,9 @@ namespace MatchMakingService.Application.Handlers
 {
     public class UpdateMatchRequestTTLcommandHandler : IRequestHandler<UpdateMatchRequestTTLcommand, IResult<TimeSpan>>
     {
-        private IUserRepository _userRepository;
+        private ICacheUserRepository _userRepository;
 
-        public UpdateMatchRequestTTLcommandHandler(IUserRepository userRepository)
+        public UpdateMatchRequestTTLcommandHandler(ICacheUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -18,7 +18,7 @@ namespace MatchMakingService.Application.Handlers
         public async Task<IResult<TimeSpan>> Handle(UpdateMatchRequestTTLcommand request, CancellationToken cancellationToken)
         {
             var id = request.IssuerId;
-            var result = _userRepository.ResetMatchRequestTTL(id);
+            var result = await _userRepository.ResetMatchRequestTTL(id, request.control);
             return result;
         }
     }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using AuthService.Application.Commands.GenerateToken;
 using AuthMiddleware.Entities;
 using System.Text.Json;
+using AuthService.Application.Commands.TokenValidation;
 
 namespace AuthService.Api.Controllers
 {
@@ -22,21 +23,60 @@ namespace AuthService.Api.Controllers
             _mediator = mediator;
             _tokenService = tokenService;
         }
-
-        [HttpGet]
-        [Route("verifyAccessToken")]
-        public IActionResult VerifyToken([FromQuery] string token)
+        [HttpGet("RefreshAccessToken")]
+        public async Task<IActionResult> RefreshAccessToken([FromQuery] string token)
         {
-            var response = new AuthResult();
-            response.IsValid = true;
-            response.UserId = 1488;
+            var command = new GenerateOrGetAccessTokenCommand
+            {
+                RefreshToken = token,
+            };
 
-            
-            return Ok(response);
+            var result = await _mediator.Send(command);
+            if (result.IsSuccess)
+            {
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Data = result.Value,
+                    Success = true,
+                };
+                return Ok(response);
+            }
+            else
+            {
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Success = false,
+                    ErrorCode = result.EmergedError.code.ToString(),
+                };
+                return Ok(response);
+            }
+        }
+        [HttpGet("verifyAccessToken")]
+        public async Task<IActionResult> VerifyToken([FromQuery] string token)
+        {
+            var command = new AccessTokenValidateCommand
+            {
+                AccessToken = token,
+            };
+            var validationResult = await _mediator.Send(command);
+
+            if (validationResult.IsSuccess)
+            {
+                var response = new AuthResult();
+                response.IsValid = true;
+                response.UserId = validationResult.Value.Id;
+
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpPost]
-        [Route("Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> RegisterUser([FromBody] UserDTO user)
         {
 
@@ -50,21 +90,21 @@ namespace AuthService.Api.Controllers
             var result = await _mediator.Send(request);
             if (result.IsSuccess)
             {
-                var refreshTokenRequest = new GenerateRefreshTokenCommand
+                var refreshTokenRequest = new GenerateOrGetRefreshTokenCommand
                 {
                     UserId = result.Value,
                 };
                 var refreshTokenResult = await _mediator.Send(refreshTokenRequest);
                 if (refreshTokenResult.IsSuccess)
                 {
-                    var accessTokenRequest = new GenerateAccessTokenCommand
+                    var accessTokenRequest = new GenerateOrGetAccessTokenCommand
                     {
                         RefreshToken = refreshTokenResult.Value,
                     };
                     var accessTokenResult = await _mediator.Send(accessTokenRequest);
                     if (accessTokenResult.IsSuccess)
                     {
-                        var response = new UserRegistrationResponse 
+                        var data = new UserRegistrationResponse 
                         {
                             UserName = user.UserName,
                             Email = user.Email,
@@ -72,22 +112,59 @@ namespace AuthService.Api.Controllers
                             AccessToken = accessTokenResult.Value,
                             RefreshToken = refreshTokenResult.Value,
                         };
+                        var response = new ApiResponse
+                        {
+                            Data = data,
+                            Date = DateTime.Now,
+                            Success = true,
+                        };
                         return Ok(response);
                     }
                 }
             }
             else
             {
-
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Success = false,
+                    ErrorCode = result.EmergedError.code.ToString()
+                };
+                return Ok(response);
             }
             return Ok();
         }
 
-        [HttpPost]
-        [Route("Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] UserDTO user)
         {
-            return Ok();
+            var command = new LoginUserCommand
+            {
+                UserName = user.UserName,
+                Password = user.Password,
+            };
+            var result = await _mediator.Send(command);
+            if (!result.IsSuccess)
+            {
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Success = false,
+                    ErrorCode = result.EmergedError.code.ToString(),
+                };
+                return Ok(response);
+            }
+            else
+            {
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Success = true,
+                    Data = result.Value,
+                };
+                return Ok(response);
+            }
+            
         }
     }
 }

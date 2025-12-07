@@ -5,7 +5,7 @@ using MediatR;
 
 namespace AuthService.Application.Commands.GenerateToken
 {
-    public record GenerateRefreshTokenCommand : IRequest<IResult<string>>
+    public record GenerateOrGetRefreshTokenCommand : IRequest<IResult<string>>
     {
         [Required] public int UserId { get; init; }
     }

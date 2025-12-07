@@ -1,6 +1,8 @@
-﻿using AuthService.Domain.Models;
+﻿
+using AuthService.Domain.Models;
 using AuthService.Domain.Repositories;
 using AuthService.Infrastructure.DataBaseContext;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AuthService.Infrastructure.Repositories
@@ -21,22 +23,36 @@ namespace AuthService.Infrastructure.Repositories
 
         }
 
+        public async Task<User?> GetUserByName(string username)
+        {
+            var user = _context.Users.FirstOrDefault(user => user.UserName == username);
+            return user;
+
+        }
+
+        public async Task<bool> IsUserNameExists(string username)
+        {
+            var _user = await _context.Users.AnyAsync(u => u.UserName == username);
+            if (_user) return true;
+            else return false;
+        }
+
         public async Task<int> RegisterUser(User _user)
         {
             var user = new User(_user);
             if(user.Id == null)
             {
-                var u = _context.Users.MaxBy(u => u.Id);
-                if (u == null)
-                {
-                    user.Id = 1;
-                }
-                user.Id = u.Id + 1;
+                var maxId = await _context.Users.AsNoTracking().MaxAsync(u => (int?)u.Id) ?? 0;
+
+                user.Id = maxId + 1;
             }
-
+            if(user.Rating == null || user.Rating == 0)
+            {
+                user.Rating = 100;
+            }
             _context.Users.Add(user);
-            _context.SaveChanges();
-
+            await _context.SaveChangesAsync();
+            
             return user.Id.Value;
         }
 
