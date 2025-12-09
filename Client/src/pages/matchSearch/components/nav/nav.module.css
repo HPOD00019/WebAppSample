@@ -1,0 +1,27 @@
+.search-match-nav-item{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin: 0;
+    width: 100%;;
+    display: flex;
+    justify-content: center;
+}
+
+.search-match-nav-item:hover{
+    border: 2px solid blue;
+    color: blue;
+    cursor: pointer;
+}
+
+.search-match-nav-panel{
+    width: 200px;
+    height: 100%;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}

@@ -2,10 +2,7 @@ import type { pieceOnBoard } from "../types/chessboard.types";
 import { fenToPieces } from "../chessLogic/transitions";
 import { attachPiecePicture } from "./attachPiecePicture";
 
-export const updatePieces = (
-  currentPieces: pieceOnBoard[], 
-  newFen: string
-): pieceOnBoard[] => {
+export const updatePieces = (currentPieces: pieceOnBoard[], newFen: string): pieceOnBoard[] => {
   const newPieces = fenToPieces(newFen); 
   const currentMap = new Map(currentPieces.map(p => [`${p.Position.x},${p.Position.y}`, p]));
   const newMap = new Map(newPieces.map(p => [`${p.Position.x},${p.Position.y}`, p]));

@@ -94,6 +94,7 @@ export const fenToPieces = (fen: string): pieceOnBoard[] => {
             color: piece.color,
             svgSource: "",
             pieceId: generateId(),
+            isClickable: true,
           });
         }
         fileIndex++;

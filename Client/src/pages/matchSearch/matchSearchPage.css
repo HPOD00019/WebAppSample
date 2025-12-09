@@ -1,0 +1,9 @@
+.match-search-page{
+    display: flex;
+    height: 100%;
+}
+.match-search-page__nav-panel{
+}
+.match-search-page__time-controls{
+    margin-left: auto;
+}

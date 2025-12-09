@@ -9,7 +9,7 @@ export const useChessGame = (fen?: string) : [string , (from: coordinates, to: c
     if(fen == null) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     const [currentPosition, MovePiece] = useState(fen);
     const chessCoreRef = useRef<ChessCore>(new ChessCore(fen));
-
+    
     const OnMovePiece = (from: coordinates, to: coordinates) => {
         const f : string =  coordinatesToChessNotation(from);
         const t : string = coordinatesToChessNotation(to);

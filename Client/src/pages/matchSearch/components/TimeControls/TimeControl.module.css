@@ -1,0 +1,14 @@
+.search-match__time-control{
+
+}
+.search-match__time-control-text{
+
+}
+.search-match__time-controls-panel{
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+}
+.game-kind-label{
+
+}

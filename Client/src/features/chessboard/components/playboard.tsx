@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import type {pieceOnBoard, squareOnBoard} from '../types/chessboard.types.ts';
 import {Piece} from './piece.tsx';
 import '../styles/board.css'
-import {findPossibleMoves} from '../chessLogic/findPossibleMoves.ts'
 import {Square} from './square.tsx';
 import {generateId} from '@shared/utils/generateId.ts';
 import {useChessGame} from '../hooks/useChessGame.ts';
