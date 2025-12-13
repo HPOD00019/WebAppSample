@@ -7,13 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
+	<PackageReference Include="MassTransit" Version="8.5.7" />
+	<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.7" />
+	<PackageReference Include="MediatR" Version="11.1.0" />
+	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+	<ProjectReference Include="..\..\Contracts\MassTransit.Conracts\MassTransit.Conracts.csproj" />
+	  
+	<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
     <ProjectReference Include="..\GameEngineService.Application\GameEngineService.Application.csproj" />
     <ProjectReference Include="..\GameEngineService.Domain\GameEngineService.Domain.csproj" />
     <ProjectReference Include="..\GameEngineService.Infrastructure\GameEngineService.Infrastructure.csproj" />
-	<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
 	<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 

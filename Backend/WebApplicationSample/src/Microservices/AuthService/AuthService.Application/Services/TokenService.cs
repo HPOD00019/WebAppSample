@@ -61,6 +61,10 @@ namespace AuthService.Application.Services
             {
                 return Result<User>.OnFailure(new Error(ErrorCode.AccessTokenInvalid));
             }
+            catch (Exception)
+            {
+                return Result<User>.OnFailure(new Error(ErrorCode.AccessTokenInvalid));
+            }
         }
         public async Task<IResult<string>> GenerateAccessToken(string refreshToken)
         {

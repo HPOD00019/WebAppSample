@@ -1,12 +1,13 @@
 import axios from 'axios'
-import { authInterceptor } from './interceptors/authInterceptor';
+import { authInterceptor } from './interceptors/request/authInterceptor';
+import { authResponseInterceptor } from './interceptors/response/authResponseInterceptor';
 
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const apiClient = axios.create({
     baseURL : BASE_URL,
-    timeout : 10000,
+    timeout : 100000,
     headers: {
         'Content-Type' : 'application/json',
     },
@@ -16,4 +17,8 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   authInterceptor,
   error => Promise.reject(error)
+);
+apiClient.interceptors.response.use(
+  response => response,
+  authResponseInterceptor
 )

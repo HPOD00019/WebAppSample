@@ -1,5 +1,6 @@
 ﻿using MatchMakingService.Api.HttpClientsServices;
 using MatchMakingService.Application.Commands;
+using MatchMakingService.Domain.Services;
 using MatchMakingService.Domain.TimeControls;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace MatchMakingService.Api.Controllers
         private UserServiceClient _userServiceClient;
         public MatchController(IMediator mediator, UserServiceClient client)
         {
+            
             _mediator = mediator;
             _userServiceClient = client;
         }

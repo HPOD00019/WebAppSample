@@ -9,5 +9,10 @@ export interface ApiError{
     status : number;
     errors? : Record<string, string[]>;
 }
-
+export interface AccessTokenResponse{
+    date: string;
+    success: boolean;
+    errorCode?: string;
+    data: string;
+}
 export type LoadingState = 'loading' | 'succeeded' | 'failed'

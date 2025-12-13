@@ -8,11 +8,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\AuthMiddleware\AuthMiddleware.csproj" />
+    <ProjectReference Include="..\..\Contracts\MassTransit.Conracts\MassTransit.Conracts.csproj" />
     <ProjectReference Include="..\MatchMakingService.Application\MatchMakingService.Application.csproj" />
     <ProjectReference Include="..\MatchMakingService.Domain\MatchMakingService.Domain.csproj" />
     <ProjectReference Include="..\MatchMakingService.Infrastructure\MatchMakingService.Infrastructure.csproj" />
 
 	<PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
+
+	<PackageReference Include="MassTransit" Version="8.5.7" />
+
+	<PackageReference Include="MassTransit.RabbitMQ" Version="8.5.7" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
 		<PrivateAssets>all</PrivateAssets>
@@ -23,7 +28,7 @@
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
 	<PackageReference Include="MediatR" Version="11.1.0" />
 	<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
-	<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+	  
 	<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
   </ItemGroup>
 

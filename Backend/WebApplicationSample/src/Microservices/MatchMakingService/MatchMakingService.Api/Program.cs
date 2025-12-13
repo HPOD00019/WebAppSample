@@ -2,6 +2,8 @@
 using System.Text.Json;
 using AuthMiddleware.Middleware;
 using MatchMakingService.Api.HttpClientsServices;
+using MatchMakingService.Api.MassTransit;
+using MatchMakingService.Api.MassTransit.MessageServices;
 using MatchMakingService.Api.UrlSettings;
 using MatchMakingService.Application.Commands;
 using MatchMakingService.Infrastructure;
@@ -50,7 +52,7 @@ namespace MatchMakingService.Api
                     }
                 });
             });
-
+            builder.Services.RegisterMassTransitServices(builder.Configuration.GetSection("RabbitMQ"));
             builder.Services.Configure<ServiceSettings>(builder.Configuration.GetSection("ServicesUrls"));
             builder.Services.AddTransient<UserServiceClient>();
             builder.Services.AddHttpClient();
@@ -78,6 +80,7 @@ namespace MatchMakingService.Api
             app.MapGet("/", () => "Hello World!");
 
             app.MapControllers();
+
             app.Run();
         }
     }

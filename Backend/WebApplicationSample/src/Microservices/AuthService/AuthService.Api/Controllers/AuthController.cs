@@ -8,6 +8,7 @@ using AuthService.Application.Commands.GenerateToken;
 using AuthMiddleware.Entities;
 using System.Text.Json;
 using AuthService.Application.Commands.TokenValidation;
+using Microsoft.AspNetCore.Cors;
 
 namespace AuthService.Api.Controllers
 {
@@ -24,8 +25,12 @@ namespace AuthService.Api.Controllers
             _tokenService = tokenService;
         }
         [HttpGet("RefreshAccessToken")]
-        public async Task<IActionResult> RefreshAccessToken([FromQuery] string token)
+        [EnableCors("WithCredentials")]
+        public async Task<IActionResult> RefreshAccessToken()
         {
+            var token = Request.Cookies["RefreshToken"];
+            if (token == null) return BadRequest("No Refresh Token coockie found");
+
             var command = new GenerateOrGetAccessTokenCommand
             {
                 RefreshToken = token,
@@ -118,6 +123,13 @@ namespace AuthService.Api.Controllers
                             Date = DateTime.Now,
                             Success = true,
                         };
+                        Response.Cookies.Append("RefreshToken", accessTokenResult.Value, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = false,
+                            Path = "/Auth/RefreshAccessToken",
+                            IsEssential = true,
+                        });
                         return Ok(response);
                     }
                 }
@@ -136,6 +148,7 @@ namespace AuthService.Api.Controllers
         }
 
         [HttpPost("Login")]
+        [EnableCors("WithCredentials")]
         public async Task<IActionResult> Login([FromBody] UserDTO user)
         {
             var command = new LoginUserCommand
@@ -162,6 +175,14 @@ namespace AuthService.Api.Controllers
                     Success = true,
                     Data = result.Value,
                 };
+                Response.Cookies.Append("RefreshToken", result.Value, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = false,
+                    Path = "/Auth/RefreshAccessToken",
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Lax,
+                });
                 return Ok(response);
             }
             

@@ -11,7 +11,7 @@ export interface LoginFormProps{
 export const LoginForm : React.FC<LoginFormProps> = ({onSuccess}) => {
     const [credentials, setCredentials] = useState<LoginCredentials>({
         password: '',
-        email : '',
+        username : '',
     });
     
     const {login, user, isLoading, isAuthenticated} = useAuth();
@@ -37,12 +37,11 @@ export const LoginForm : React.FC<LoginFormProps> = ({onSuccess}) => {
             <div id='input-components' className='space-ver-xs' >
                 <div className='input-group'>
                     <Input
-                    placeholder='Email'
-                    type='email'
-                    name='email'
-                    id='email'
+                    placeholder='User name'
+                    name='username'
+                    id='username'
                     disabled={isLoading}
-                    value={credentials.email}
+                    value={credentials.username}
                     onChange={handleChange}
                     
                     required

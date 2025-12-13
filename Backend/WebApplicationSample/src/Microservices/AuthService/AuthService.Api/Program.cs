@@ -19,6 +19,23 @@ namespace AuthService.Api
             builder.Services.AddControllers();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                }); 
+                options.AddPolicy("WithCredentials", policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173")
+                          .AllowCredentials()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
+
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddScoped<ITokenService>(provider =>
             {
@@ -42,6 +59,7 @@ namespace AuthService.Api
 
             app.MapGet("/", () => "Hello World!");
 
+            app.UseCors();
             app.UseSwagger();
             app.UseSwaggerUI();
 

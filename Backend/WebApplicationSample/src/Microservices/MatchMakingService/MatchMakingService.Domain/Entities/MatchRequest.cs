@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MatchMakingService.Domain.Entities
 {
-    public class MatchRequest
+    public record MatchRequest
     {
-        private readonly User _issuer;
-        private readonly int _minOpponentRating;
-        private readonly int _maxOpponentRating;
+        private User _issuer;
+        private int _minOpponentRating;
+        private int _maxOpponentRating;
 
         public MatchRequest(User issuer, int minOpponentRating, int maxOpponentRating)
         {
