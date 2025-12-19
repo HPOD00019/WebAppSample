@@ -10,5 +10,6 @@ namespace GameEngineService.Domain.Chess
         bool IsDraw(ChessMove move);
         string GetCurrentPositionInFen();
         void Move(ChessMove move);
+        bool isStartPosition();
     }
 }

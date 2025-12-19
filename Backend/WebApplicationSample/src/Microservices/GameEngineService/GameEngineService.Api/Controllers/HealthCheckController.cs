@@ -7,18 +7,9 @@ namespace GameEngineService.Api.Controllers
     [Route("/[controller]")]
     public class HealthCheckController : ControllerBase
     {
-        private IMatchMessageService _service;
-        public HealthCheckController(IMatchMessageService service)
+        public HealthCheckController()
         {
-            _service = service;
         }
 
-        [HttpGet]
-        
-        public IActionResult TestMassTransit([FromQuery] int id)
-        {
-            _service.PublishMatchCreatedMessage(id);
-            return Ok();
-        }
     }
 }

@@ -8,18 +8,15 @@ namespace GameEngineService.Application.Connections
     public class WebSocketConnection : IGameConnection, IDisposable
     {
         private ISocketService<ChessGameMessage> _socketService;
-        private int _id;
         public event EventHandler<ChessGameMessage> OnPlayerMove;
         public event EventHandler<ChessGameMessage> OnPlayerSuggestDraw;
         public event EventHandler<ChessGameMessage> OnPlayerResign;
 
-        public WebSocketConnection(ISocketService<ChessGameMessage> socket, int id)
+        public WebSocketConnection(ISocketService<ChessGameMessage> socket)
         {
-            _id = id;
             _socketService = socket;
-            _socketService.SubscribeOnClientMessage(id, MessageReceivedHandler);
         }
-
+        
         public void SendMessage(ChessGameMessage message)
         {
             _socketService.SendMessage(message);
@@ -47,6 +44,11 @@ namespace GameEngineService.Application.Connections
         {
 
 
+        }
+
+        public void OnIntialize(int SessionId)
+        {
+            _socketService.SubscribeOnClientMessage(SessionId, MessageReceivedHandler);
         }
     }
 }

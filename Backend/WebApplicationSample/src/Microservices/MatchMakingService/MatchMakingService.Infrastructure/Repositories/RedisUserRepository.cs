@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Text.Json;
 using MatchMakingService.Application.Services;
 using MatchMakingService.Domain;
@@ -34,17 +35,41 @@ namespace MatchMakingService.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<bool> GetUserById(int id, TimeControl? control)
+        public async Task CreateNewMatch(int matchId, int blackOpponentId, int whiteOpponentId)
         {
-            if (control == null) throw new NotImplementedException();
+            var key = RedisKeysGenerator.GetMatchKey(matchId);
+            _db.StringSet(key, $"{whiteOpponentId}-{blackOpponentId}");
 
+        }
 
+        public async Task<IResult<Tuple<int, int>>> GetOpponentsByMatchId(int matchId)
+        {
+            var key = RedisKeysGenerator.GetMatchKey(matchId);
+            string opponents = await _db.StringGetAsync(key);
+
+            if (opponents == null) throw new NotImplementedException();
+
+            var parts = opponents.Split('-');
+            int whiteOpponentId = int.Parse(parts[0]);
+            int blackOpponentId = int.Parse(parts[1]);
+            var p = new Tuple<int, int>(whiteOpponentId, blackOpponentId);
+            var result = Result<Tuple<int, int>>.OnSuccess(p);
+            return result;
+        }
+
+        public async Task<TimeControl?> GetUserRequestTimeControlById(int id)
+        {
             string key = RedisKeysGenerator.GetUserKey(id);
 
-            var user = await _db.StringGetAsync(key);
-
-            if (user.IsNull) return false;
-            return true;
+            var timeControl = await _db.StringGetAsync(key);
+            if (Enum.TryParse<TimeControl>(timeControl, out TimeControl result))
+            {
+                return result;
+            }
+            else
+            {
+                return null;
+            }
             
         }
 
@@ -74,6 +99,27 @@ namespace MatchMakingService.Infrastructure.Repositories
             return users;
         }
 
+        public async Task<IResult<string>> IsMatchReady(int userId)
+        {
+            var key = RedisKeysGenerator.GetMatchKeyForUser(userId);
+            string matchLink = await _db.StringGetAsync(key);
+            if (matchLink == null)
+            {
+                var error = new Error(ErrorCode.MatchIsNotFound);
+                return Result<string>.OnFailure(error);
+            }
+            var result = Result<string>.OnSuccess(matchLink);
+            return result;
+        }
+
+        public async Task RemoveUserFromSortedSet(int userId, TimeControl? control)
+        {
+            if (control == null) throw new NotImplementedException();
+
+            var key = RedisKeysGenerator.GetUserKey(userId);
+            await _db.SortedSetRemoveAsync(control.ToString(), key);
+        }
+
         public async Task<IResult<TimeSpan>> ResetMatchRequestTTL(int userid, TimeControl? control = null)
         {
             var userKey = RedisKeysGenerator.GetUserKey(userid);
@@ -91,5 +137,10 @@ namespace MatchMakingService.Infrastructure.Repositories
             return result;
         }
 
+        public async Task SetMatchReady(int userId, string link)
+        {
+            var key = RedisKeysGenerator.GetMatchKeyForUser(userId);
+            _db.StringSet(key, link);
+        }
     }
 }

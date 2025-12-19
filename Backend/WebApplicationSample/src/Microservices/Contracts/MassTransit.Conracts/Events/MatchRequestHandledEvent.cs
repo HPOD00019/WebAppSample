@@ -13,6 +13,6 @@ namespace MassTransit.Conracts.Events
         public string? ErrorCode { get; init; }
         public bool IsSuccess { get; init; }
         public DateTime TimeStamp { get; init; }
-
+        public string? JoinGameLink { get; init; }
     }
 }

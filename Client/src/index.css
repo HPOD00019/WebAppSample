@@ -3,6 +3,7 @@
 @import './pages/matchSearch/components/nav/nav.module.css';
 @import './pages/matchSearch/components/TimeControls/TimeControl.module.css';
 @import './pages/matchSearch/matchSearchPage.css';
+@import './pages/matchSearch/components/timer/timer.css';
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

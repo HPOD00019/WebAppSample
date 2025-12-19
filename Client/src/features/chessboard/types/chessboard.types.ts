@@ -32,13 +32,15 @@ export interface squareOnBoard extends SquareProps{
   issuerId?: number
 }
 export interface ChessMove{
-  San: string;
+  san: string;
 }
 export interface ChessMessage{
   GameId: string;
-  MessageType: "SuggestDraw" | "Resign" | "Move";
-  Issuer: UserDTO;
-  Move: ChessMove | null;
+  messageType: "SuggestDraw" | "Resign" | "Move";
+  issuer: UserDTO;
+  move: ChessMove | null;
+  blackRemainingTime?: number;
+  whiteRemainingTime?: number;
 }
 export interface UserDTO{
   Id: string;

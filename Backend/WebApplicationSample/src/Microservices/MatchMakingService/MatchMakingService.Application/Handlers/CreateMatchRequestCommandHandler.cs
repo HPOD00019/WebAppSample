@@ -27,11 +27,6 @@ namespace MatchMakingService.Application.Handlers
             if (request.FromToSettings != null) throw new NotImplementedException("Not implemented castom rating settings");
             var userRating = _dbUser.GetRatingByTimeControl(request.control);
 
-            var users = await _userRepository.GetUsersWithRatingFromTo((int)(userRating * 0.8), (int)(userRating * 1.2), request.control);
-            if(users != null || users.Count > 0)
-            {
-
-            }
             var result = await _userRepository.AddUserToQueue(_dbUser, request.control);
             return result;
             

@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using MassTransit.Conracts.Events;
+using MatchMakingService.Application.Commands;
 using MediatR;
 
 namespace MatchMakingService.Api.MassTransit.Consumers
@@ -17,7 +18,14 @@ namespace MatchMakingService.Api.MassTransit.Consumers
 
         public async Task Consume(ConsumeContext<MatchRequestHandledEvent> context)
         {
-            throw new NotImplementedException();
+            var message = context.Message;
+            var command = new HandleMatchCreatedCommand
+            {
+                Id = message.MatchId,
+                Link = message.JoinGameLink,
+            };
+            await _mediator.Send(command);
+
         }
 
     }

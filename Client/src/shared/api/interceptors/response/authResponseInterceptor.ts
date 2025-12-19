@@ -1,6 +1,6 @@
 import { apiClient } from "@shared/api/ApiClient";
 import type { AccessTokenResponse } from "@shared/types/api";
-import { storeAccessToken } from "@shared/utils/storage";
+import { getRefreshToken, storeAccessToken } from "@shared/utils/storage";
 import type { AxiosError } from "axios";
 
 export const authResponseInterceptor = async (error: AxiosError) => {
@@ -11,9 +11,12 @@ export const authResponseInterceptor = async (error: AxiosError) => {
     }
     
     if(error.response?.status === 401){
-        const response = await apiClient.get<AccessTokenResponse>('http://localhost:5001/Auth/RefreshAccessToken', {
-            withCredentials: true
-        });
+
+        const refreshToken = getRefreshToken();
+        console.log(refreshToken);
+        const url = `http://localhost:5001/Auth/RefreshAccessToken?refreshToken=${refreshToken}`;
+        console.log(url);
+        const response = await apiClient.get<AccessTokenResponse>(url);
         if(response.data.success === false) console.log(response.data.errorCode);
         const newAccessToken = response.data.data;
         storeAccessToken(newAccessToken);

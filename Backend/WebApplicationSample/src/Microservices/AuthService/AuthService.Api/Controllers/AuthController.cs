@@ -26,14 +26,12 @@ namespace AuthService.Api.Controllers
         }
         [HttpGet("RefreshAccessToken")]
         [EnableCors("WithCredentials")]
-        public async Task<IActionResult> RefreshAccessToken()
+        public async Task<IActionResult> RefreshAccessToken([FromQuery] string refreshToken)
         {
-            var token = Request.Cookies["RefreshToken"];
-            if (token == null) return BadRequest("No Refresh Token coockie found");
 
             var command = new GenerateOrGetAccessTokenCommand
             {
-                RefreshToken = token,
+                RefreshToken = refreshToken,
             };
 
             var result = await _mediator.Send(command);

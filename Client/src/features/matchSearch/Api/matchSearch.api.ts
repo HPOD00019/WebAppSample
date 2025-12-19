@@ -1,6 +1,14 @@
 import { apiClient } from "@shared/api/ApiClient";
 import type { matchRequest } from "../types/search.types";
+import type { ApiResponse } from "@shared/types/api";
 
 export const matchSearchApi = {
-    findMatch: (request: matchRequest) => apiClient.get('http://localhost:5003/Match/NewGame?_control=0')
+    findMatch: async (request: matchRequest) : Promise<ApiResponse<string>> => {
+        const response = (await apiClient.get(`http://localhost:5003/Match/NewGame?_control=0${request.timeControl}`)).data as ApiResponse<string>;
+        return response;
+    },
+    pingMatch: async (request: matchRequest) : Promise<ApiResponse<string>> => {
+        const response = (await apiClient.get(`http://localhost:5003/Match/PingMatchRequest?_control=0${request.timeControl}`)).data as ApiResponse<string>;
+        return response;
+    },
 }

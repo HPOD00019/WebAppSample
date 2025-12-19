@@ -10,11 +10,22 @@ namespace GameEngineService.Domain
 {
     public class SessionManager
     {
-        private ConcurrentDictionary<int, IGameSession> _sessions;
+        private ConcurrentDictionary<int, IGameSession> _sessions = new ConcurrentDictionary<int, IGameSession>();
+        private ConcurrentDictionary<int, int> _players = new ConcurrentDictionary<int, int>();
+
         public IGameSession GetSession(int sessionId)
         {
             _sessions.TryGetValue(sessionId, out var session);
             return session;
+        }
+        public int GetSessionByPlayerId(int playerId)
+        {
+            _players.TryGetValue(playerId, out var session);
+            return session;
+        }
+        public void AddPlayer(int playerId, int sessionId)
+        {
+            _players.TryAdd(playerId, sessionId);
         }
         public void AddSession(IGameSession session)
         {
@@ -24,7 +35,8 @@ namespace GameEngineService.Domain
         public void RemoveSession(IGameSession session)
         {
             var id = session.Id;
-            _sessions.TryRemove(id, out _);
+            _sessions.TryRemove(id, out var removedSession);
+            removedSession.Dispose();
         }
 
     }

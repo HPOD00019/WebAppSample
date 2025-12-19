@@ -25,7 +25,7 @@ namespace AuthService.UnitTests
 
             TestUser.UserName = "TestName";
             TestUser.Role = UserRole.RegularUser;
-            TestUser.Id = new Guid("63927fce14b643e88245687e0036780f");
+            TestUser.Id = 5;
             var serviceResult = await service.GenerateRefreshToken(TestUser);
             Assert.True(serviceResult.IsSuccess);
 

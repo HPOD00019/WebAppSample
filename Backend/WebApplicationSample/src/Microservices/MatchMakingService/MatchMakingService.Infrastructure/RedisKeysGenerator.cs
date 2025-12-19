@@ -11,6 +11,8 @@ namespace MatchMakingService.Infrastructure
 {
     public static class RedisKeysGenerator
     {
+        public const string Match = "match";
+        public const string MatchFor = "match_for";
         public const string User = "user";
         public static string GetUserKey(User user)
         {
@@ -27,6 +29,16 @@ namespace MatchMakingService.Infrastructure
         {
             int id = int.Parse(key.Split(':')[1]);
             return id;
+        }
+        public static string GetMatchKeyForUser(int userId)
+        {
+            string key = $"{RedisKeysGenerator.MatchFor}:{userId}";
+            return key;
+        }
+        public static string GetMatchKey(int matchId)
+        {
+            string key = $"{RedisKeysGenerator.Match}:{matchId}";
+            return key;
         }
     }
 }

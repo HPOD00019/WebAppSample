@@ -6,5 +6,8 @@ namespace MatchMakingService.Domain.Entities
         NoExceptions,
         RefreshTokenInvalid,
         UserNotFoundInMatchRequests,
+        MatchIsNotFound,
+        UserNotFoundInDataBase,
+        UpdateTTLtimeControlWasInvalid,
     }
 }

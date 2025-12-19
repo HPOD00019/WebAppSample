@@ -7,10 +7,18 @@ export class ChessCore {
   constructor(fen?: string) {
     this.game = new Chess(fen);
   }
-
   public getLegalMoves(square: string): string[] {
     const moves = this.game.moves({ square, verbose: true });
     return moves.map(move => move.to);
+  }
+  public makeMoveSan(san: string){
+    try{
+      const result = this.game.move(san);
+      console.log(result);
+    }
+    catch(error) {
+      console.log(error);
+    }
   }
   public makeMove(from: string, to: string, promotionTo?: 'q'| 'n' | 'b' |'r' ): { success: boolean; error?: string; san?: string } {
     try {
@@ -30,7 +38,13 @@ export class ChessCore {
     return this.game.fen();
   }
   
-  public reset(): void {
+  public reset(newFen: string | undefined = undefined): void {
+        console.log(newFen);
+    if(newFen){
+      
+      this.game = new Chess(newFen);
+      return;
+    }
     this.game.reset();
   }
 

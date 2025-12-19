@@ -11,14 +11,18 @@ namespace GameEngineService.Infrastructure.DTOs
         public string MessageType { get; set; }
         public UserDTO Issuer { get; set; }
         public ChessMoveDTO? Move { get; set; }
+        public int? WhiteRemainingTime { get; set; }
+        public int? BlackRemainingTime { get; set; }
         public ChessGameMessageDTO() { }
-        public ChessGameMessageDTO(string gameId, string messageType, UserDTO issuer, ChessMoveDTO? move, string fen)
+        public ChessGameMessageDTO(string gameId, string messageType, UserDTO issuer, ChessMoveDTO? move, string fen, int? whitetime = null, int? blackTime = null)
         {
             GameId = gameId;
             Fen = fen;
             MessageType = messageType;
             Issuer = issuer;
             Move = move;
+            WhiteRemainingTime = whitetime;
+            BlackRemainingTime = blackTime;
         }
         public ChessGameMessageDTO (ChessGameMessage msg)
         {
@@ -27,6 +31,8 @@ namespace GameEngineService.Infrastructure.DTOs
             MessageType = msg.MessageType.ToString();
             Issuer = new UserDTO(msg.Issuer);
             Move = new ChessMoveDTO(msg.Move);
+            WhiteRemainingTime = msg.WhiteRemainingTime;
+            BlackRemainingTime = msg.BlackRemainingTime;
         }
         public static ChessGameMessage ToChessGameMessage(ChessGameMessageDTO message)
         {
@@ -34,7 +40,10 @@ namespace GameEngineService.Infrastructure.DTOs
             ChessMessageType messageType = (ChessMessageType)Enum.Parse(typeof(ChessMessageType), message.MessageType, true);
             var issuer = UserDTO.ToUser(message.Issuer);
             var fen = message.Fen;
-            var ans = new ChessGameMessage(id, messageType, issuer, ChessMoveDTO.ToChessMove(message.Move), fen);
+            var blackTime = message.BlackRemainingTime;
+            var whiteTime = message.WhiteRemainingTime;
+            var ans = new ChessGameMessage(id, messageType, issuer, ChessMoveDTO.ToChessMove(message.Move), fen, whiteTime, blackTime);
+
             return ans;
         }
     }

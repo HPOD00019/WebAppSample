@@ -28,11 +28,13 @@ namespace GameEngineService.Api.MassTransit.MessageServices
                 MatchId = matchId,
                 TimeStamp = DateTime.UtcNow,
                 IsSuccess = true,
+                JoinGameLink = Urls.Urls.JoinGameLink,
             };
             await _endpoint.Publish(matchCreatedEvent, context =>
             {
                 context.CorrelationId = correlationId;
                 context.MessageId = NewId.NextGuid();
+               
             });
         }
     }

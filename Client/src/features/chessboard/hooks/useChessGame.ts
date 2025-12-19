@@ -1,12 +1,13 @@
 import { useState, useRef} from "react"
 import { ChessCore } from "../chessLogic/ChessCore";
 import {chessNotationToCoordinates, coordinatesToChessNotation} from '../chessLogic/transitions';
-import type {coordinates} from '../types/chessboard.types';
+import type { coordinates} from '../types/chessboard.types';
 
 
 
-export const useChessGame = (fen?: string) : [string , (from: coordinates, to: coordinates) => void, (square: coordinates) => coordinates[]] => {
+export const useChessGame = (wsConnectionString: string, fen?: string) : [string , (from: coordinates, to: coordinates) => void, (square: coordinates) => coordinates[]] => {
     if(fen == null) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
     const [currentPosition, MovePiece] = useState(fen);
     const chessCoreRef = useRef<ChessCore>(new ChessCore(fen));
     

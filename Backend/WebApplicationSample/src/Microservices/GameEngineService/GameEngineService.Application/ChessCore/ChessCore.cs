@@ -70,5 +70,11 @@ namespace GameEngineService.Application.ChessCore
             if (!_board.IsValidMove(move.GetSanNotation())) throw new Exception("Invalid move was passed!");
             _board.Move(move.GetSanNotation());
         }
+
+        public bool isStartPosition()
+        {
+
+            return _board.ToFen() == "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        }
     }
 }

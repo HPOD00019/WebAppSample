@@ -12,15 +12,8 @@ namespace MatchMakingService.Api.Controllers
     public class UserController : ControllerBase
     {
         private IMediator _mediator;
-        public UserController(IMediator mediator, IMatchMessageService TEST)
+        public UserController(IMediator mediator)
         {
-            TEST.PublishNewMatchRequest(new Domain.Entities.Match
-            {
-                Id = 1,
-                Black = 4,
-                White = 8,
-                control = Domain.TimeControls.TimeControl.Minutes_45_increment_none,
-            });
             _mediator = mediator;
         }
 

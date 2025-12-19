@@ -10,9 +10,14 @@ namespace MatchMakingService.Domain.Repositories
 {
     public interface ICacheUserRepository
     {
+        Task<IResult<Tuple<int, int>>> GetOpponentsByMatchId (int matchId);
+        Task CreateNewMatch(int matchId, int black, int white);
+        Task RemoveUserFromSortedSet(int userId, TimeControl? control);
+        Task SetMatchReady(int userId, string link);
+        Task<IResult<string>> IsMatchReady(int userId);
         Task<IResult<TimeSpan>> ResetMatchRequestTTL(int userid, TimeControl? control = null);
         Task<IResult<TimeSpan>> AddUserToQueue(User user, TimeControl control);
         Task<ICollection<User>?> GetUsersWithRatingFromTo(int from, int to, TimeControl control);
-        Task<bool> GetUserById(int id, TimeControl? control);
+        Task<TimeControl?> GetUserRequestTimeControlById(int id);
     }
 }

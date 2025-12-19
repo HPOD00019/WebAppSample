@@ -7,7 +7,6 @@ import axios from "axios";
 
 export const useRegister = () => {
     const [registerRequestState, changeRequestState] = useState<AuthState>({
-        user: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,

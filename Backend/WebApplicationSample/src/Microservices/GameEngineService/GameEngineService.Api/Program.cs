@@ -1,5 +1,11 @@
 using GameEngineService.Api.MassTransit;
+using GameEngineService.Api.Urls;
+using GameEngineService.Application;
+using GameEngineService.Application.ChessCore;
 using GameEngineService.Application.Commands;
+using GameEngineService.Application.Connections;
+using GameEngineService.Domain;
+using GameEngineService.Domain.Chess;
 using GameEngineService.Domain.Connections;
 using GameEngineService.Domain.Services;
 using GameEngineService.Infrastructure.Hubs;
@@ -11,12 +17,17 @@ namespace GameEngineService.Api
     {
         public static void Main(string[] args)
         {
+            Urls.Urls.JoinGameLink = "http://localhost:5002/GoinGame";
             var builder = WebApplication.CreateBuilder(args);
 
             builder.WebHost.UseUrls("http://localhost:5002");
-            builder.Services.AddScoped<ISocketService<ChessGameMessage>, SignalRSocketService>();
+            builder.Services.AddSingleton<ISocketService<ChessGameMessage>, SignalRSocketService>();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
+            builder.Services.AddSingleton<SessionManager>();
+            builder.Services.AddScoped<IChessCore, ChessCore>();
+            builder.Services.AddScoped<IGameSession, WebSocketGameSession>();
+            builder.Services.AddScoped<IGameConnection, WebSocketConnection>();
             builder.Services.AddSignalR(hubOptions =>
             {
                 hubOptions.EnableDetailedErrors = true;

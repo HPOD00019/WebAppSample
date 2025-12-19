@@ -1,4 +1,5 @@
-﻿using MatchMakingService.Api.HttpClientsServices;
+﻿using MatchMakingService.Api.DTOs;
+using MatchMakingService.Api.HttpClientsServices;
 using MatchMakingService.Application.Commands;
 using MatchMakingService.Domain.Services;
 using MatchMakingService.Domain.TimeControls;
@@ -36,11 +37,23 @@ namespace MatchMakingService.Api.Controllers
             var result = await _mediator.Send(request);
             if (result.IsSuccess)
             {
-                return Ok(result.Value);
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Data = result.Value,
+                    Success = true,
+
+                };
+                return Ok(response);
             }
             else
             {
-                throw new Exception(result.ErrorMessage);
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Success = false,
+                };
+                return Ok(response);
             }
             return Ok();
         }
@@ -63,7 +76,13 @@ namespace MatchMakingService.Api.Controllers
             var result = await _mediator.Send(request);
             if (result.IsSuccess)
             {
-                return Ok(result.Value);
+                var response = new ApiResponse
+                {
+                    Date = DateTime.Now,
+                    Data = result.Value,
+                    Success = true,
+                };
+                return Ok(response);
             }
             else
             {
