@@ -12,5 +12,6 @@ namespace MatchMakingService.Domain.Repositories
         Task<bool> IsUserExists(User user);
         void RegisterUser(User user);
         Task<User?> GetUserById(int id);
+        Task UpdateUser(User user);
     }
 }

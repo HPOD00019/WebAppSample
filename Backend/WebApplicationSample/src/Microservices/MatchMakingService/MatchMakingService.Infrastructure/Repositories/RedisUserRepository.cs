@@ -20,8 +20,6 @@ namespace MatchMakingService.Infrastructure.Repositories
         {
             _connection = multiplexer;
             _db = _connection.GetDatabase();
-
-
         }
 
         public async Task<IResult<TimeSpan>> AddUserToQueue(User user, TimeControl control)
@@ -39,7 +37,19 @@ namespace MatchMakingService.Infrastructure.Repositories
         {
             var key = RedisKeysGenerator.GetMatchKey(matchId);
             _db.StringSet(key, $"{whiteOpponentId}-{blackOpponentId}");
+            
+        }
 
+        public async Task<Tuple<int, int>> GetMatchColors(int matchId)
+        {
+            var key = RedisKeysGenerator.GetMatchKey(matchId);
+            string sides = await _db.StringGetAsync(key);
+            var n = sides.Split('-');
+            var white = Int32.Parse(n[0]);
+            var black = Int32.Parse(n[1]);
+            var ans = new Tuple<int, int>(white, black);
+
+            return ans;
         }
 
         public async Task<IResult<Tuple<int, int>>> GetOpponentsByMatchId(int matchId)
@@ -47,7 +57,12 @@ namespace MatchMakingService.Infrastructure.Repositories
             var key = RedisKeysGenerator.GetMatchKey(matchId);
             string opponents = await _db.StringGetAsync(key);
 
-            if (opponents == null) throw new NotImplementedException();
+            if (opponents == null)
+            {
+                var error = new Error(ErrorCode.MatchIsNotFound);
+                var _result = Result<Tuple<int, int>>.OnFailure(error);
+                return _result;
+            }
 
             var parts = opponents.Split('-');
             int whiteOpponentId = int.Parse(parts[0]);
@@ -110,6 +125,19 @@ namespace MatchMakingService.Infrastructure.Repositories
             }
             var result = Result<string>.OnSuccess(matchLink);
             return result;
+        }
+
+        public async Task RemoveMatch(int matchId)
+        {
+            var key = RedisKeysGenerator.GetMatchKey(matchId);
+            _db.KeyDelete(key);
+        }
+
+        public async Task RemoveMatchForUser(int userId)
+        {
+            var key = RedisKeysGenerator.GetMatchKeyForUser(userId);
+            _db.KeyDelete(key);
+            
         }
 
         public async Task RemoveUserFromSortedSet(int userId, TimeControl? control)

@@ -21,9 +21,12 @@ namespace GameEngineService.Infrastructure.Hubs
             var sessionId = _sessionManager.GetSessionByPlayerId(userId);
             var session = _sessionManager.GetSession(sessionId);
             var position = session.GetCurrentPositionFen();
+            var WhitePlayer = session.WhitePlayer;
+            var isWhite = userId == WhitePlayer.Id;
             await Clients.Caller.SendAsync("GetCurrentPosition", position);
-            await Clients.Caller.SendAsync("OnServerMessage");
+            await Clients.Caller.SendAsync("SetBoardSide", isWhite);
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionId.ToString());
+
         }
         public async Task OnClientGameMessage (ChessGameMessageDTO message)
         {

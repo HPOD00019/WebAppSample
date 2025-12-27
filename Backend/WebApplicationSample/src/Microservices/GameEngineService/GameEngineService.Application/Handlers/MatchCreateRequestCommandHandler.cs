@@ -29,9 +29,14 @@ namespace GameEngineService.Application.Handlers
 
         public async Task<IResult<IGameSession>> Handle(MatchCreateRequestCommand request, CancellationToken cancellationToken)
         {
+            if(_manager.matchMessageService == null)
+            {
+                var service = _provider.GetService<IMatchMessageService>();
+                _manager.matchMessageService = service;
+            }
             var connection = _provider.GetRequiredService<IGameConnection>();
             var core = _provider.GetRequiredService<IChessCore>();
-
+            
             var game = new WebSocketGameSession(connection, core, request.Id);
 
             

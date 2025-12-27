@@ -36,5 +36,17 @@ namespace MatchMakingService.Infrastructure.Repositories
             _context.users.Add(user);
             _context.SaveChanges();
         }
+
+        public async Task UpdateUser(User user)
+        {
+            var id = user.Id;
+            var _user = _context.users.FirstOrDefault(u => u.Id == id);
+            if (_user == null) return;
+            if(user.BlitzRating != null) _user.BlitzRating = user.BlitzRating;
+            if (user.RapidRating != null) _user.RapidRating = user.RapidRating;
+            if (user.ClassicalRating != null) _user.ClassicalRating = user.ClassicalRating;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }

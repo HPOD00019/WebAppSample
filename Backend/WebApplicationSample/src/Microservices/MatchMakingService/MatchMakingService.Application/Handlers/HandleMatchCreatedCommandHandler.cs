@@ -24,7 +24,12 @@ namespace MatchMakingService.Application.Handlers
         public async Task<IResult<bool>> Handle(HandleMatchCreatedCommand request, CancellationToken cancellationToken)
         {
             var opponentsResult = await _userRepository.GetOpponentsByMatchId(request.Id);
-            if (opponentsResult.IsSuccess == false) throw new NotImplementedException();
+            if (opponentsResult.IsSuccess == false)
+            {
+                var error = new Error(ErrorCode.MatchIsNotFound);
+                var _result = Result<bool>.OnFailure(error);
+                return _result;
+            }
             var opponents = opponentsResult.Value;
             
             var whiteId = opponents.Item1;
@@ -35,7 +40,6 @@ namespace MatchMakingService.Application.Handlers
 
             var result = Result<bool>.OnSuccess(true);
             return result;
-            
         }
     }
 }

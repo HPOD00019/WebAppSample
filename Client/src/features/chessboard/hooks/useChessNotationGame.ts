@@ -4,7 +4,7 @@ import { useWSconnection } from "../connection/useWSconection";
 import type { ChessMessage } from "../types/chessboard.types";
 
 
-export const useChessNotationGame = (IssuerId: string, gameID: number, resetWhiteClock: (milliseconds: number) => void, resetBlackClock: (milliseconds: number) => void, wsConnectionString: string, fen?: string) : [string, () => string , (from: string, to: string) => boolean, (from: string, to: string, promotionType?: 'q'| 'n' | 'b' |'r') => boolean, (square: string) => string[], (from: string, to: string) => boolean] => {
+export const useChessNotationGame = (IssuerId: string, gameID: number,OnSetPlayBoardSide: (isWhite: boolean) => void, resetWhiteClock: (milliseconds: number) => void, resetBlackClock: (milliseconds: number) => void, wsConnectionString: string, fen?: string) : [string, () => string , (from: string, to: string) => boolean, (from: string, to: string, promotionType?: 'q'| 'n' | 'b' |'r') => boolean, (square: string) => string[], (from: string, to: string) => boolean] => {
     if(fen == null) fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     const OnRefreshPosition = (fen: string) => {
         ChangeFen(fen);
@@ -30,7 +30,7 @@ export const useChessNotationGame = (IssuerId: string, gameID: number, resetWhit
         }
     }
     
-    const [SendChessMessage] = useWSconnection(IssuerId, OnChessMessageReceived, OnRefreshPosition, wsConnectionString);
+    const [SendChessMessage] = useWSconnection(IssuerId, OnSetPlayBoardSide ,OnChessMessageReceived, OnRefreshPosition, wsConnectionString);
     const [_fen, ChangeFen] = useState(fen);
     const chessCoreRef = useRef<ChessCore>(new ChessCore(fen));
     const GetCurrentPosition = () => {

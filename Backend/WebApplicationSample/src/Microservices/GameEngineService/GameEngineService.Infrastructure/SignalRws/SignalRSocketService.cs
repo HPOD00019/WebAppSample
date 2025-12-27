@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using GameEngineService.Domain;
 using GameEngineService.Domain.Connections;
+using GameEngineService.Domain.Entities;
 using GameEngineService.Domain.Services;
 using GameEngineService.Infrastructure.DTOs;
 using GameEngineService.Infrastructure.Hubs;
@@ -38,7 +39,11 @@ namespace GameEngineService.Infrastructure.SignalRws
             var group = _players.Clients.Group(message.GameId.ToString());
             group.SendAsync("OnServerMessage", _message);
         }
-
+        public void OnGameEndMessage(MatchResult result, int matchId)
+        {
+            var group = _players.Clients.Group(matchId.ToString());
+            group.SendAsync("OnGameEnd", result.ToString());
+        }
         public void SubscribeOnClientMessage(int id, Action<ChessGameMessage> handler)
         {
             _messageReceivedHandlers.TryAdd(id, handler);

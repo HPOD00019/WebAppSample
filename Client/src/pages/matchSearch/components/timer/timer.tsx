@@ -27,7 +27,7 @@ export const Timer = (props : TimerProps) => {
                 console.log('Осталось 30 секунд!');
                 }
             }}
-            onComplete={() => alert('Время вышло!')} 
+            onComplete={() => {}} 
         />
     </div>
     )

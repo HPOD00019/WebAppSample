@@ -1,6 +1,6 @@
 
 
-import { Chessboard, type ChessboardOptions, type PieceDropHandlerArgs, type PieceHandlerArgs } from 'react-chessboard';
+import { Chessboard, type ChessboardOptions, type PieceDropHandlerArgs } from 'react-chessboard';
 
 interface PlayBoardProps{
   width?: number;
@@ -13,9 +13,14 @@ interface PlayBoardProps{
 export const PlayBoard = (props : PlayBoardProps) => {
   
   const PieceDropHandler = (args: PieceDropHandlerArgs) => {
+    const playablePieceColorWhite = props.playableSide == 'white';
     const from = args.sourceSquare;
     const to = args.targetSquare;
-    if(to === null) return false;
+    const isColorWhite = args.piece.pieceType[0] === 'w';
+    const ans = isColorWhite === playablePieceColorWhite;
+    if(!ans)  { console.log(ans); return false};
+    if(!to) return false;
+    
     const isValid = props.pieceMoveAttemptHandler(from, to);
     console.log(args);
     return isValid;
@@ -26,7 +31,7 @@ export const PlayBoard = (props : PlayBoardProps) => {
     showNotation: true,
     onPieceDrop: PieceDropHandler,
     position: props.position,
-    
+    boardOrientation: props.playableSide,
   }
   return(
     <div className = "play-board-container" style={{width: `900px`, height: `900px`}}>

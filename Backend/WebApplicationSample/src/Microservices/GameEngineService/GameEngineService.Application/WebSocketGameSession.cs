@@ -12,8 +12,11 @@ namespace GameEngineService.Application
         private IGameConnection _connection;
         private IChessCore _chessCore;
         private bool _isWhiteMove = true;
-        private User _blackPlayer { get; set; }
-        private User _whitePlayer { get; set; }
+
+        public event EventHandler<MatchResultDTO> OnMatchEnd;
+
+        public User BlackPlayer { get; set; }
+        public User WhitePlayer { get; set; }
 
         private TimeControl _control { get; set; }
         public int Id { get; set; }
@@ -25,12 +28,10 @@ namespace GameEngineService.Application
             Id = id.Value;
             _connection.OnPlayerMove += PlayerMoveHandler;
             _connection.OnIntialize(Id);
-
         }
-
         private void PlayerMoveHandler(object? sender, ChessGameMessage e)
         {
-            if ((e.Issuer.Id == _whitePlayer.Id && !_isWhiteMove) || (e.Issuer.Id == _blackPlayer.Id && _isWhiteMove)) return;
+            if ((e.Issuer.Id == WhitePlayer.Id && !_isWhiteMove) || (e.Issuer.Id == BlackPlayer.Id && _isWhiteMove)) return;
             var isMoveValid = _chessCore.ValidateMove(e.Move);
             if (!isMoveValid)
             {
@@ -40,26 +41,64 @@ namespace GameEngineService.Application
             {
                 _timeManager.OnGameStart();
             }
+
             _chessCore.Move(e.Move);
             _isWhiteMove = !_isWhiteMove;
             var _message = new ChessGameMessage(e);
-            if (e.Issuer.Id == _blackPlayer.Id)
+            if (e.Issuer.Id == BlackPlayer.Id)
             {
-                var remaningTime = _timeManager.OnBlackMove();
-                if (remaningTime <= TimeSpan.Zero) Console.WriteLine("WHITE WINS");
+                var remaningTime = _timeManager.OnBlackMove(); 
+                if (remaningTime <= TimeSpan.Zero)
+                {
+                    var results = new MatchResultDTO
+                    {
+                        matchId = Id,
+                        control = _control,
+                        result = MatchResult.WhiteWinOnTime,
+                    };
+                    OnMatchEnd.Invoke(this, results);
+                    _connection.SendMessage(results.result,  Id);
+                    return;
+                }
                 var whiteTime = _timeManager.WhiteTime;
                 _message.BlackRemainingTime = (int)remaningTime.TotalMilliseconds;
                 _message.WhiteRemainingTime = (int)whiteTime.TotalMilliseconds;
+                
             }
-            else
+            else if(e.Issuer.Id == WhitePlayer.Id)
             {
                 var remaningTime = _timeManager.OnWhiteMove();
-                if (remaningTime <= TimeSpan.Zero) Console.WriteLine("BLACK WINS");
+                if (remaningTime <= TimeSpan.Zero)
+                {
+                    var results = new MatchResultDTO
+                    {
+                        matchId = Id,
+                        control = _control,
+                        result = MatchResult.BlackWinOnTime,
+                    };
+                    OnMatchEnd.Invoke(this, results);
+                    _connection.SendMessage(results.result, Id);
+                    return;
+
+                }
                 var blackTime = _timeManager.BlackTime;
                 _message.WhiteRemainingTime = (int)remaningTime.TotalMilliseconds;
                 _message.BlackRemainingTime = (int)remaningTime.TotalMilliseconds;
             }
-
+            var res = _chessCore.GetMatchResult();
+            if (res != null)
+            {
+                var result = new MatchResultDTO
+                {
+                    matchId = Id,
+                    control = _control,
+                    result = res.Value,
+                };
+                OnMatchEnd.Invoke(this, result);
+                _connection.SendMessage(res.Value, Id);
+                return;
+            }
+            
             _connection.SendMessage(_message);
         }
         
@@ -70,9 +109,8 @@ namespace GameEngineService.Application
 
         public void SetPlayers(User black, User white)
         {
-            _blackPlayer = black;
-            _whitePlayer = white;
-            
+            BlackPlayer = black;
+            WhitePlayer = white;
         }
 
         public void SetTimeControl(TimeControl control)

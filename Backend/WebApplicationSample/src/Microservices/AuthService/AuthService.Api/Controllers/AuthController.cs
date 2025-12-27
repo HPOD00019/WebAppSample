@@ -17,12 +17,10 @@ namespace AuthService.Api.Controllers
     public class AuthController : ControllerBase
     {
         private IMediator _mediator;
-        private ITokenService _tokenService;
 
-        public AuthController(IMediator mediator, ITokenService tokenService)
+        public AuthController(IMediator mediator)
         {
             _mediator = mediator;
-            _tokenService = tokenService;
         }
         [HttpGet("RefreshAccessToken")]
         [EnableCors("WithCredentials")]

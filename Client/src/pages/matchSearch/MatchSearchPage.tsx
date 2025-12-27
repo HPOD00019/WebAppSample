@@ -22,11 +22,17 @@ const checkForActiveMatches =  async (requestForMatch: (request: number) => Prom
 }
 export const MatchSearchPage = () => {
     const [connectionString, ChangeConnectionString] = useState("");
+    const [whiteTime, ChangeWhiteTime] = useState(0);
+    const [blackTime, ChangeBlackTime] = useState(0);
+    const [isWhitePlayableSide, changePlayableSide] = useState(true);
+
     const resetWhiteClock = (milliseconds: number): void => {
         console.log('white time: ' + milliseconds.toString());
+        ChangeWhiteTime(milliseconds);
     }
     const resetBlackClock = (milliseconds: number): void  => {
         console.log('black time: ' + milliseconds.toString());
+        ChangeBlackTime(milliseconds);
     }
     const onMatchFound = (link:string) => {
         console.log("MATCH FOUND");
@@ -47,7 +53,7 @@ export const MatchSearchPage = () => {
     }, []);
     const [gameId, ChangeGameId] = useState(0);
     
-    const [fen, GetCurrentPosition, isPromotion,OnMovePiece, FindLegalMoves, ValidateMove] = useChessNotationGame(id,gameId, resetWhiteClock, resetBlackClock, connectionString);
+    const [fen, GetCurrentPosition, isPromotion,OnMovePiece, FindLegalMoves, ValidateMove] = useChessNotationGame(id,gameId, changePlayableSide,  resetWhiteClock, resetBlackClock, connectionString);
     
     const accountClicked = () => {
         console.log("account clicked!");
@@ -74,9 +80,10 @@ export const MatchSearchPage = () => {
     return (
         <div className="match-search-page">
             <NavPanel className="match-search-page__nav-panel" onAccountClicked={accountClicked} onSettingsClicked={settingsClicked}/>
-            <PlayBoard playableSide="white" pieceMoveAttemptHandler={moveAttemptHandler} position={fen}/>
+            <PlayBoard playableSide={isWhitePlayableSide? 'white' : 'black'} pieceMoveAttemptHandler={moveAttemptHandler} position={fen}/>
             <TimeControlsPanel className="match-search-page__time-controls" controlChoosedHandler={(n:number) => {startSearch(n)}}/>
-            <Timer totalMilliseconds={2312100}/>
+            <Timer totalMilliseconds={whiteTime}/>
+            <Timer totalMilliseconds={blackTime} />
         </div>
     )
 }

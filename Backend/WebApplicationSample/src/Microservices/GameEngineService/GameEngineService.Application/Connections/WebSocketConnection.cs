@@ -1,6 +1,7 @@
 ﻿
 using System.Runtime.CompilerServices;
 using GameEngineService.Domain.Connections;
+using GameEngineService.Domain.Entities;
 using GameEngineService.Domain.Services;
 
 namespace GameEngineService.Application.Connections
@@ -43,12 +44,16 @@ namespace GameEngineService.Application.Connections
         public void Dispose()
         {
 
-
         }
 
         public void OnIntialize(int SessionId)
         {
             _socketService.SubscribeOnClientMessage(SessionId, MessageReceivedHandler);
+        }
+
+        public void SendMessage(MatchResult result, int matchId)
+        {
+            _socketService.OnGameEndMessage(result, matchId);
         }
     }
 }

@@ -4,6 +4,7 @@ using GameEngineService.Application.Commands;
 using GameEngineService.Domain.Entities;
 using GameEngineService.Domain.Services;
 using MassTransit.Conracts.Events;
+using GameEngineService.Domain.TimeControls;
 
 namespace GameEngineService.Api.MassTransit.MessageServices
 {
@@ -35,6 +36,24 @@ namespace GameEngineService.Api.MassTransit.MessageServices
                 context.CorrelationId = correlationId;
                 context.MessageId = NewId.NextGuid();
                
+            });
+        }
+
+        public async Task PublishMatchFinishedMessage(MatchResultDTO results)
+        {
+            var correlationId = NewId.NextGuid();
+            var matchFinishedEvent = new MatchFinishedEvent
+            {
+                CorrelationId = correlationId,
+                MatchId = results.matchId,
+                TimeStamp = DateTime.UtcNow,
+                matchResult = (int)results.result,
+                timeControl = (int)results.control,
+            };
+            await _endpoint.Publish(matchFinishedEvent, context =>
+            {
+                context.CorrelationId = correlationId;
+                context.MessageId = NewId.NextGuid();
             });
         }
     }

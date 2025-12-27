@@ -1,5 +1,7 @@
-﻿using Chess;
+﻿using System.Drawing;
+using Chess;
 using GameEngineService.Domain.Chess;
+using GameEngineService.Domain.Entities;
 
 namespace GameEngineService.Application.ChessCore
 {
@@ -43,12 +45,35 @@ namespace GameEngineService.Application.ChessCore
             return false;
         }
 
-        public bool IsMate(ChessMove move)
+        public MatchResult? GetMatchResult()
         {
+            
             var ans = false;
             var end = _board.EndGame;
-            ans = end?.EndgameType == EndgameType.Checkmate;
-            return ans;
+            if(end != null )
+            {
+                if(end.EndgameType == EndgameType.Checkmate)
+                {
+                    var side = end.WonSide;
+                    if(side == PieceColor.White)
+                    {
+                        var res = MatchResult.WhiteWinByCheckMate;
+                        return res;
+                    }
+                    else
+                    {
+                        var res = MatchResult.BlackWinByCheckMate;
+                        return res;
+                    }
+
+                }
+                if(end.EndgameType == EndgameType.Stalemate)
+                {
+                    var res = MatchResult.StaleMate;
+                    return res;
+                }
+            }
+            return null;
         }
 
         public bool IsStaleMate(ChessMove move)
