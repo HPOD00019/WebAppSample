@@ -3,6 +3,7 @@ import { RegisterPage } from '@pages/Auth/RegisterPage';
 import { LoginPage } from '@pages/Auth';
 import { GamePage } from '@pages/gameRoom/GamePage';
 import { MatchSearchPage } from '@pages/matchSearch/MatchSearchPage';
+import { AnalisysPage } from '@pages/analisysPage/analisysPage';
 
 
 export const router = createBrowserRouter([
@@ -22,5 +23,9 @@ export const router = createBrowserRouter([
     {
         path: '/search', 
         element: <MatchSearchPage />
+    },
+    {
+        path: '/analisys',
+        element: <AnalisysPage />
     }
 ]);

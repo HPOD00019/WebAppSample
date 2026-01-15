@@ -1,37 +1,91 @@
-import React from 'react'
-import './button.css'
+import React, { useState } from 'react';
+import styles from './Button.module.css';
 
-
-export interface ButtonProps{
-    children : React.ReactNode;
-    btnStyle : 'primary' | 'secondary' | 'danger';
-    size? : 'large' | 'medium' | 'small';
-    disabled? : boolean;
-    onClick? : () => void;
-    btnType? : 'button' | 'submit' | 'reset';
-    className? : string;
+interface ButtonProps {
+    /** Размер кнопки */
+    size?: 'small' | 'medium' | 'large';
+    /** Вариант кнопки */
+    variant?: 'default' | 'success' | 'danger' | 'outline';
+    /** Текст на кнопке */
+    children: React.ReactNode;
+    /** Отключена ли кнопка */
+    disabled?: boolean;
+    /** Обработчик клика */
+    onClick?: () => void;
+    /** Иконка слева (например, из react-icons) */
+    icon?: React.ReactNode;
+    /** Дополнительные классы */
+    className?: string;
+    /** Тип HTML-кнопки */
+    type?: 'button' | 'submit' | 'reset';
+    /** Показать анимацию нажатия */
+    withPressAnimation?: boolean;
+    /** Дополнительные inline стили */
+    style?: React.CSSProperties;
 }
 
-export const Button : React.FC<ButtonProps> = ({
-    children,
-    btnStyle = 'primary',
+export const Button = ({
     size = 'medium',
+    variant = 'default',
+    children,
     disabled = false,
-    btnType = 'button',
     onClick,
+    icon,
     className = '',
+    type = 'button',
+    withPressAnimation = false,
+    style,
+}: ButtonProps) => {
+    const [isAnimating, setIsAnimating] = useState(false);
 
-}) => {
-    const buttonClass = `btn btn-${btnStyle} btn-${size} ${className}`.trim();
+    const handleClick = () => {
+        if (disabled) return;
+        
+        if (withPressAnimation) {
+            setIsAnimating(true);
+            setTimeout(() => setIsAnimating(false), 300);
+        }
+        
+        if (onClick) {
+            onClick();
+        }
+    };
 
-  return (
-    <button
-      type={btnType}
-      className={buttonClass}
-      disabled={disabled}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
+    const buttonClasses = [
+        styles.button3d,
+        styles[size],
+        styles[variant],
+        isAnimating ? styles.pressAnimation : '',
+        className,
+    ]
+        .filter(Boolean)
+        .join(' ');
+
+    return (
+        <button
+            type={type}
+            className={buttonClasses}
+            disabled={disabled}
+            onClick={() => handleClick()}
+            style={style}
+            aria-disabled={disabled}
+        >
+            {icon && <span className={styles.icon}>{icon}</span>}
+            {children}
+        </button>
+    );
+};
+
+// Пример иконок для быстрого использования
+export const Button3DIcons = {
+    Download: () => <i className="fas fa-download" />,
+    Send: () => <i className="fas fa-paper-plane" />,
+    Delete: () => <i className="fas fa-trash" />,
+    Save: () => <i className="fas fa-save" />,
+    Play: () => <i className="fas fa-play" />,
+    Stop: () => <i className="fas fa-stop" />,
+    Plus: () => <i className="fas fa-plus" />,
+    Minus: () => <i className="fas fa-minus" />,
+    Check: () => <i className="fas fa-check" />,
+    Close: () => <i className="fas fa-times" />,
 };

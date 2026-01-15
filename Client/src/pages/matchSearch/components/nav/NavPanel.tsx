@@ -1,3 +1,4 @@
+import { FlatPanelButton } from "@shared/ui/FlatPanelButton";
 import { NavItem } from "./NavItem";
 
 export interface NavPanelProps{
@@ -11,8 +12,10 @@ export const NavPanel = (props: NavPanelProps) => {
     
     return(
         <div className={"search-match-nav-panel" + " " + classNames }>
-            <NavItem text="My Account" onClick={props.onAccountClicked}/>
-            <NavItem text="Options" onClick={props.onSettingsClicked}/>
+            <FlatPanelButton onClick={props.onAccountClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>My Account</p></FlatPanelButton>
+            <FlatPanelButton onClick={props.onAccountClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Options</p></FlatPanelButton>
+            <FlatPanelButton onClick={props.onAccountClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>My Games</p></FlatPanelButton>
+            <FlatPanelButton onClick={props.onAccountClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Play with Bot</p></FlatPanelButton>
         </div>
     )
 }

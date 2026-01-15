@@ -1,6 +1,10 @@
 .match-search-page{
     display: flex;
     height: 100%;
+    background-color: #0F172A;
+}
+.match-search-page__section{
+    background-color: #1E293B;
 }
 .match-search-page__nav-panel{
 }

@@ -45,31 +45,4 @@ export interface ChessMessage{
 export interface UserDTO{
   Id: string;
 }
-
-interface piece_knight{
-
-}
-
-interface piece_pawn{
-    
-}
-
-interface piece_bishop{
-    
-}
-
-interface piece_king{
-    
-}
-
-interface piece_rook{
-    
-}
-
-interface board{
-
-}
-
-interface square{
-    
-}
+export type boardStyle = 'vector' | 'classical';

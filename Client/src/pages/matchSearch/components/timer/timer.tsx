@@ -14,7 +14,7 @@ export const Timer = (props : TimerProps) => {
             precision={3} 
             renderer={({ hours, minutes, seconds, completed }) => {
                 if (completed) {
-                return <span>Время вышло!</span>;
+                    return <span>0:00</span>;
                 }
                 return (
                 <span className='timer-text'>
@@ -24,7 +24,7 @@ export const Timer = (props : TimerProps) => {
             }}
             onTick={({ total, minutes, seconds }) => {
                 if (minutes === 0 && seconds === 30) {
-                console.log('Осталось 30 секунд!');
+                    console.log('Осталось 30 секунд!');
                 }
             }}
             onComplete={() => {}} 

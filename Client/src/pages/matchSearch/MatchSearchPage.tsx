@@ -8,6 +8,10 @@ import { getSubByJWTtoken } from "@shared/utils/getSubByJWTtoken";
 import { useEffect, useState } from "react";
 import { Timer } from "./components/timer/timer";
 import type { ApiResponse } from "@shared/types/api";
+import { Opponent } from "./components/opponent/opponent";
+import type { boardStyle } from "@features/chessboard/types/chessboard.types";
+import { StylesList } from "@features/chessboard/components/board-style/styles-list";
+
 
 const checkForActiveMatches =  async (requestForMatch: (request: number) => Promise<ApiResponse<string>>): Promise<string | undefined> => {
     let ans : string | undefined = "";
@@ -21,6 +25,8 @@ const checkForActiveMatches =  async (requestForMatch: (request: number) => Prom
     return ans;
 }
 export const MatchSearchPage = () => {
+    const [chessSet, setChessSet] = useState<boardStyle>('classical');
+    
     const [connectionString, ChangeConnectionString] = useState("");
     const [whiteTime, ChangeWhiteTime] = useState(0);
     const [blackTime, ChangeBlackTime] = useState(0);
@@ -76,14 +82,29 @@ export const MatchSearchPage = () => {
         }
         return false;
     }
-    
+    //there was whiteTime in Timer one
+    //blackTime the second one 
     return (
+        
         <div className="match-search-page">
-            <NavPanel className="match-search-page__nav-panel" onAccountClicked={accountClicked} onSettingsClicked={settingsClicked}/>
-            <PlayBoard playableSide={isWhitePlayableSide? 'white' : 'black'} pieceMoveAttemptHandler={moveAttemptHandler} position={fen}/>
-            <TimeControlsPanel className="match-search-page__time-controls" controlChoosedHandler={(n:number) => {startSearch(n)}}/>
-            <Timer totalMilliseconds={whiteTime}/>
-            <Timer totalMilliseconds={blackTime} />
+            <NavPanel className="match-search-page__nav-panel match-search-page__section" onAccountClicked={accountClicked} onSettingsClicked={settingsClicked}/>
+            <div style={{width: '100%',  height: 'fit-content', display:'flex', flexDirection: 'row', padding: '15px'}}>
+               <div style={{ marginLeft: 'auto', height: 'fit-content'}}>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 'auto'}}><Opponent name="Test_User_1" rating={1897}/></div>
+                        <Timer totalMilliseconds={10000000}/>    
+                    </div>
+                    <PlayBoard chessSet={chessSet} playableSide={isWhitePlayableSide? 'white' : 'black'} pieceMoveAttemptHandler={moveAttemptHandler} position={'rnbq1rk1/pp2ppbp/2n3p1/2p5/2BPP3/2P1B3/P3NPPP/R2Q1RK1 w - - 0 11'}/>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 'auto'}}><Opponent name="Test_User_0" rating={1908}/></div>
+                        <Timer totalMilliseconds={1640120}/>    
+                    </div>
+                </div>
+                <StylesList  onStyleClicked={(s: boardStyle) => setChessSet(s)}/>
+                <TimeControlsPanel className="match-search-page__time-controls match-search-page__section" controlChoosedHandler={(n:number) => {startSearch(n)}}/>
+             
+            </div>
+            
         </div>
     )
 }

@@ -9,17 +9,23 @@ export const TimeControlsPanel = (props: TimeControlsPanelProps) => {
     const classNames = props.className == null? "" : props.className;
     return(
         <div className={"search-match__time-controls-panel" + " " + classNames }>
-            <p className="game-kind-label">Blitz</p>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="3+2"/>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="5+0"/>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="5+5"/>
+            <p className="game-kind-label" style={{paddingTop: '0px'}}>Blitz</p>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="3min + 2sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="5min + 0sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="5min + 5sec"/>
+            </div>
             <p className="game-kind-label">Rapid</p>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="5+5"/>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="5+5"/>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="10min + 5sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="15min + 5sec"/>
+            </div>
                 
             <p className="game-kind-label">Classical</p>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="45+0"/>
-            <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="60+30"/>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="45min + 0sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="60min + 30sec"/>
+            </div>
             
         </div>
     )

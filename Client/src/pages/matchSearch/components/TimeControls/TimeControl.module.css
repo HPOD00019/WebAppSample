@@ -5,10 +5,17 @@
 
 }
 .search-match__time-controls-panel{
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    width: 600px;
+    width: fit-content;
+    border-radius: 15px;
 }
 .game-kind-label{
-
+    font-weight: 500;
+    font-size: 1.5em;
+    display: flex;
+    padding-top: 40px;
+    padding-bottom: 15px;
+    margin: 0px;
 }
