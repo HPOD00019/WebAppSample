@@ -19,3 +19,8 @@ export const getStoredId = (): number => {
 export const getRefreshToken = () => {
     return localStorage.getItem('refreshToken');
 }
+export const getOpponent = () : string => {
+    const op = localStorage.getItem('opponent');
+    if(!op) return "";
+    return op;
+}

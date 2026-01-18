@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import * as signalR from '@microsoft/signalr';
 import type { ChessMessage } from "../types/chessboard.types";
 
-export const useWSconnection = ( userid: string, OnRegister: (isWhite: boolean) => void, OnReceiveMessage: (message: ChessMessage) => void, OnRefreshPosition: (fen: string) => void, connectionEndpoint: string) : [(message: ChessMessage) => void] => {
+export const useWSconnection = ( userid: string, OnGameFinished: () => void, OnRegister: (isWhite: boolean) => void, OnReceiveMessage: (message: ChessMessage) => void, OnRefreshPosition: (fen: string) => void, connectionEndpoint: string) : [(message: ChessMessage) => void] => {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
     const receiveHandlerRef = useRef(OnReceiveMessage);
     const refreshHandlerRef = useRef(OnRefreshPosition);
@@ -34,7 +34,14 @@ export const useWSconnection = ( userid: string, OnRegister: (isWhite: boolean) 
                 OnRegister(isWhite);
             });
             newConnection.on('OnGameEnd', (result: string) => {
+                newConnection.off('OnGameEnd');
+                newConnection.off('SetBoardSide');
+                newConnection.off('GetCurrentPosition');
+                newConnection.off('OnServerMessage');
+                newConnection.stop();
+                OnGameFinished();
                 console.log(result);
+
             });
             newConnection.on("GetCurrentPosition", (position: string) => {
                 refreshHandlerRef.current(position);

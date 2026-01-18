@@ -28,7 +28,7 @@ namespace MatchMakingService.Infrastructure.Repositories
             string key = RedisKeysGenerator.GetUserKey(id);
             var rating = user.GetRatingByTimeControl(control);
             await _db.SortedSetAddAsync(control.ToString(), key, rating);
-            _db.StringSet(key, control.ToString(), TimeSpan.FromSeconds(260));
+            _db.StringSet(key, control.ToString(), TimeSpan.FromSeconds(8));
             var result = Result<TimeSpan>.OnSuccess(TimeSpan.FromMinutes(1));
             return result;
         }
@@ -163,7 +163,7 @@ namespace MatchMakingService.Infrastructure.Repositories
                 var _result = Result<TimeSpan>.OnFailure(error);
                 return _result;
             }
-            _db.StringSet(userKey, control.ToString(), TimeSpan.FromSeconds(260));
+            _db.StringSet(userKey, control.ToString(), TimeSpan.FromSeconds(8));
             
             var result = Result<TimeSpan>.OnSuccess(TimeSpan.FromSeconds(60));
             return result;

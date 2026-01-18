@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ChessCore } from "../chessLogic/ChessCore";
 import { useHttpGameConnection } from "../connection/useHttpGameConnection";
 
@@ -11,6 +11,10 @@ export const useChessHttpGame = (elo:number, fen?: string) : [string, () => stri
         const ans = chessCoreRef.current.getFen();
         return ans;
     }
+    useEffect(() => {
+        chessCoreRef.current.reset();
+        ChangeFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    }, [elo]);
     const [getBestMove] = useHttpGameConnection();
     const OnMovePiece = async (from: string, to: string, promotionType?: 'q'| 'n' | 'b' |'r') => {
         console.log(from, to);

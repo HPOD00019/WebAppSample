@@ -13,7 +13,9 @@ import type { boardStyle } from "@features/chessboard/types/chessboard.types";
 import { StylesList } from "@features/chessboard/components/board-style/styles-list";
 
 
+const getCredentials = async (id: number): string => {
 
+}
 
 const checkForActiveMatches =  async (requestForMatch: (request: number) => Promise<ApiResponse<string>>): Promise<string | undefined> => {
     let ans : string | undefined = "";
@@ -47,7 +49,13 @@ export const MatchSearchPage = () => {
         console.log(link);
         ChangeConnectionString(link);
     }
-
+    const OnGameFinished = () => {
+        ChangeWhiteTime(0);
+        ChangeBlackTime(0);
+        changePlayableSide(true);
+        ChangeConnectionString("");
+        ChangeGameId(prev => prev + 1);
+    }
     
     const accessToken = getAccessToken();
     const id = getSubByJWTtoken(accessToken);
@@ -61,7 +69,7 @@ export const MatchSearchPage = () => {
     }, []);
     const [gameId, ChangeGameId] = useState(0);
     
-    const [fen, GetCurrentPosition, isPromotion,OnMovePiece, FindLegalMoves, ValidateMove] = useChessNotationGame(id,gameId, changePlayableSide,  resetWhiteClock, resetBlackClock, connectionString);
+    const [fen, GetCurrentPosition, isPromotion,OnMovePiece, FindLegalMoves, ValidateMove] = useChessNotationGame(id, gameId, OnGameFinished,changePlayableSide,  resetWhiteClock, resetBlackClock, connectionString);
 
     const accountClicked = () => {
         console.log("account clicked!");
@@ -85,6 +93,7 @@ export const MatchSearchPage = () => {
     }
     const timeDetector = (whiteClock: boolean) => {if(isWhitePlayableSide === whiteClock) { return whiteTime} else {return blackTime}}
     return (
+        
         <div className="match-search-page">
             <NavPanel className="match-search-page__nav-panel match-search-page__section" onAccountClicked={accountClicked} onSettingsClicked={settingsClicked}/>
             <div style={{width: '100%',  height: 'fit-content', display:'flex', flexDirection: 'row', padding: '15px'}}>

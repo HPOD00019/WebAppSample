@@ -11,20 +11,20 @@ export const TimeControlsPanel = (props: TimeControlsPanelProps) => {
         <div className={"search-match__time-controls-panel" + " " + classNames }>
             <p className="game-kind-label" style={{paddingTop: '0px'}}>Blitz</p>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="3min + 2sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(0)} textContent="3min + 2sec"/>
                 <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="5min + 0sec"/>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="5min + 5sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="5min + 5sec"/>
             </div>
             <p className="game-kind-label">Rapid</p>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(4)} textContent="10min + 5sec"/>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(5)} textContent="15min + 5sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(3)} textContent="10min + 0sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(4)} textContent="15min + 10sec"/>
             </div>
                 
             <p className="game-kind-label">Classical</p>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(6)} textContent="45min + 0sec"/>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(7)} textContent="60min + 30sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(5)} textContent="45min + 0sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(6)} textContent="60min + 30sec"/>
             </div>
             
         </div>
