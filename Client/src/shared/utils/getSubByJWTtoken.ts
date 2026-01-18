@@ -21,6 +21,6 @@ export const getSubByJWTtoken = (token: string | null): string  => {
         return JSON.parse(jsonPayload).sub;
     } catch (error) {
         console.error('Failed to decode JWT:', error);
-        return null;
+        return "";
     }
 }

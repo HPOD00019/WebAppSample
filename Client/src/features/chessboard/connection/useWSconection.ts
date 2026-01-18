@@ -17,6 +17,7 @@ export const useWSconnection = ( userid: string, OnRegister: (isWhite: boolean) 
         console.log(connectionEndpoint);
         if(connectionEndpoint != "") 
         {
+            console.log(connectionEndpoint);
             const issuerId: number = parseInt(userid);
             const newConnection = new signalR.HubConnectionBuilder()
                 .withUrl(connectionEndpoint)

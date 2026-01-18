@@ -7,7 +7,16 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("ReactApp", policy =>
+            {
+                policy.WithOrigins("http://localhost:5173")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials();
+            });
+        });
         builder.WebHost.UseUrls("http://localhost:5004");
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +41,7 @@ public class Program
             });
         }
 
+        app.UseCors("ReactApp");
         app.UseHttpsRedirection();
         app.UseAuthorization();
         app.MapControllers();

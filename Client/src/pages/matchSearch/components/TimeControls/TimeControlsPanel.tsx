@@ -17,14 +17,14 @@ export const TimeControlsPanel = (props: TimeControlsPanelProps) => {
             </div>
             <p className="game-kind-label">Rapid</p>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="10min + 5sec"/>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="15min + 5sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(4)} textContent="10min + 5sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(5)} textContent="15min + 5sec"/>
             </div>
                 
             <p className="game-kind-label">Classical</p>
             <div style={{ display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(1)} textContent="45min + 0sec"/>
-                <TimeControl clickHandler={() => props.controlChoosedHandler(2)} textContent="60min + 30sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(6)} textContent="45min + 0sec"/>
+                <TimeControl clickHandler={() => props.controlChoosedHandler(7)} textContent="60min + 30sec"/>
             </div>
             
         </div>

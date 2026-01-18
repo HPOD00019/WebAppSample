@@ -17,7 +17,16 @@ namespace MatchMakingService.Api.Controllers
             _mediator = mediator;
         }
 
-
+        [HttpGet("GetUserRating")]
+        public async Task<IActionResult> GetUserRating([FromQuery] int Id)
+        {
+            var request = new GetUserRatingCommand
+            {
+                Id = Id
+            };
+            var rating = await _mediator.Send(request);
+            return Ok(rating);
+        }
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] User user)
         {

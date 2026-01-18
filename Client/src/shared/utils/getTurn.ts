@@ -1,0 +1,1 @@
+export const getTurn = (fen: string): boolean => fen.trim().split(/\s+/)[1].toLowerCase() === 'w';

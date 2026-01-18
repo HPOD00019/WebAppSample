@@ -26,7 +26,6 @@ namespace GameEngineService.Infrastructure.Hubs
             await Clients.Caller.SendAsync("GetCurrentPosition", position);
             await Clients.Caller.SendAsync("SetBoardSide", isWhite);
             await Groups.AddToGroupAsync(Context.ConnectionId, sessionId.ToString());
-
         }
         public async Task OnClientGameMessage (ChessGameMessageDTO message)
         {

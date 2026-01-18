@@ -13,6 +13,8 @@ import type { boardStyle } from "@features/chessboard/types/chessboard.types";
 import { StylesList } from "@features/chessboard/components/board-style/styles-list";
 
 
+
+
 const checkForActiveMatches =  async (requestForMatch: (request: number) => Promise<ApiResponse<string>>): Promise<string | undefined> => {
     let ans : string | undefined = "";
     ans = (await requestForMatch(0)).data;
@@ -60,7 +62,7 @@ export const MatchSearchPage = () => {
     const [gameId, ChangeGameId] = useState(0);
     
     const [fen, GetCurrentPosition, isPromotion,OnMovePiece, FindLegalMoves, ValidateMove] = useChessNotationGame(id,gameId, changePlayableSide,  resetWhiteClock, resetBlackClock, connectionString);
-    
+
     const accountClicked = () => {
         console.log("account clicked!");
     }
@@ -78,33 +80,28 @@ export const MatchSearchPage = () => {
                 return isValid;
             }
             OnMovePiece(from, to);
-
         }
         return false;
     }
-    //there was whiteTime in Timer one
-    //blackTime the second one 
+    const timeDetector = (whiteClock: boolean) => {if(isWhitePlayableSide === whiteClock) { return whiteTime} else {return blackTime}}
     return (
-        
         <div className="match-search-page">
             <NavPanel className="match-search-page__nav-panel match-search-page__section" onAccountClicked={accountClicked} onSettingsClicked={settingsClicked}/>
             <div style={{width: '100%',  height: 'fit-content', display:'flex', flexDirection: 'row', padding: '15px'}}>
                <div style={{ marginLeft: 'auto', height: 'fit-content'}}>
                     <div style={{display: 'flex', flexDirection: 'row'}}>
                         <div style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 'auto'}}><Opponent name="Test_User_1" rating={1897}/></div>
-                        <Timer totalMilliseconds={10000000}/>    
+                        <Timer fen={fen} isWhite={!isWhitePlayableSide} totalMilliseconds={timeDetector(false)}/>    
                     </div>
-                    <PlayBoard chessSet={chessSet} playableSide={isWhitePlayableSide? 'white' : 'black'} pieceMoveAttemptHandler={moveAttemptHandler} position={'rnbq1rk1/pp2ppbp/2n3p1/2p5/2BPP3/2P1B3/P3NPPP/R2Q1RK1 w - - 0 11'}/>
+                    <PlayBoard chessSet={chessSet} playableSide={isWhitePlayableSide? 'white' : 'black'} pieceMoveAttemptHandler={moveAttemptHandler} position={fen}/>
                     <div style={{display: 'flex', flexDirection: 'row'}}>
                         <div style={{marginTop: 'auto', marginBottom: 'auto', marginRight: 'auto'}}><Opponent name="Test_User_0" rating={1908}/></div>
-                        <Timer totalMilliseconds={1640120}/>    
+                        <Timer fen={fen} isWhite={isWhitePlayableSide} totalMilliseconds={timeDetector(true)}/>    
                     </div>
                 </div>
                 <StylesList  onStyleClicked={(s: boardStyle) => setChessSet(s)}/>
                 <TimeControlsPanel className="match-search-page__time-controls match-search-page__section" controlChoosedHandler={(n:number) => {startSearch(n)}}/>
-             
             </div>
-            
         </div>
     )
 }

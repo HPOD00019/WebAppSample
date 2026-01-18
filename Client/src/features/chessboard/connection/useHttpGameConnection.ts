@@ -5,6 +5,5 @@ export const useHttpGameConnection = (): [(fen:string, elo:number) => Promise<st
         const move = await chessApi.getBestMove(fen, elo);
         return move;
     }
-    
     return [getBestMove]
 }

@@ -180,7 +180,6 @@ namespace ChessEngineService.Controllers
             }
             finally
             {
-
                 if (stockfishProcess != null && !stockfishProcess.HasExited)
                 {
                     try

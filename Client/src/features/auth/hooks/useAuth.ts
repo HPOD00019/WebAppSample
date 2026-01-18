@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { authApi } from '../api/auth-api';
 import type { LoginCredentials, AuthState} from '../types/auth.types'
-import { storeRefreshToken } from '@shared/utils/storage';
+import { storeId, storeRefreshToken } from '@shared/utils/storage';
+import { getSubByJWTtoken } from '@shared/utils/getSubByJWTtoken';
 
 
 export const useAuth = () => {
@@ -30,9 +31,11 @@ export const useAuth = () => {
         if(ans.success === true){
             const response = ans.data;
             const str = JSON.stringify(response).slice(1, -1);
+            const sub = getSubByJWTtoken(str);
             
             console.log(str);
             if (response){
+                storeId(sub);
                 storeRefreshToken(str);
             }
         }

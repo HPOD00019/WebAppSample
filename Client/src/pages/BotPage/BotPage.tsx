@@ -1,5 +1,7 @@
 import { useChessHttpGame } from "@features/chessboard/hooks/useChessHttpGame";
 import { PlayBoard } from "@features/chessboard/reactChessboard/playBoard";
+import { NavPanel } from "@pages/matchSearch/components/nav/NavPanel";
+import { FlatPanelButton } from "@shared/ui/FlatPanelButton";
 import { useState } from "react"
 
 export const BotPage = () => {
@@ -19,13 +21,18 @@ export const BotPage = () => {
                 return isValid;
             }
             OnMovePiece(from, to);
-
         }
         return false;
     }
     return (
-        <div>
-            <PlayBoard playableSide={isWhitePlayableSide? 'white' : 'black'} position={fen} pieceMoveAttemptHandler={moveAttemptHandler}/>
+        <div className="match-search-page">
+            <NavPanel className="match-search-page__nav-panel match-search-page__section" />
+            <div style={{width: '100%',  height: 'fit-content', display:'flex', flexDirection: 'row', padding: '15px'}}>
+                <PlayBoard playableSide={isWhitePlayableSide? 'white' : 'black'} position={fen} pieceMoveAttemptHandler={moveAttemptHandler}/>
+                <div className="match-search-page__time-controls match-search-page__section">
+                    
+                </div>
+            </div>
         </div>
     )
 }

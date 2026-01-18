@@ -2,6 +2,7 @@ import type { ApiResponse } from "@shared/types/api";
 import { matchSearchApi } from "../Api/matchSearch.api"
 import type { matchRequest } from "../types/search.types";
 import { useRef,  type RefObject } from "react";
+import { Opponent } from "@pages/matchSearch/components/opponent/opponent";
 
 export const useMatchSearch = (onMatchFound: (joinLink: string) => void, pingInterval: number): [RefObject<boolean>, (n: number) => void, (n: number) => Promise<ApiResponse<string>>] => {
     const isSearching = useRef(false);

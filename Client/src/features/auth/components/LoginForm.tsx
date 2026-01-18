@@ -66,8 +66,7 @@ export const LoginForm : React.FC<LoginFormProps> = ({onSuccess}) => {
             
 
             <Button
-            btnType='submit'
-            btnStyle='primary'
+            type='submit'
             >
                 {isLoading? 'Wait...' : 'Login'}
             </Button>

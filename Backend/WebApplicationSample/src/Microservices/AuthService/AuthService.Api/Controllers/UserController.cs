@@ -1,4 +1,5 @@
 ﻿using AuthService.Api.DTOs;
+using AuthService.Application.Commands;
 using AuthService.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,16 @@ namespace AuthService.Api.Controllers
             _mediator = mediator;
         }
 
+        [HttpGet("GetUserName")]
+        public async Task<IActionResult> GetUserName([FromQuery] int Id)
+        {
+            var request = new GetUserNameByIdCommand
+            {
+                Id = Id
+            };
+            var name = await _mediator.Send(request);
+            return Ok(name);
+        }
         [HttpGet("GetPlayer")]
         public async Task<IActionResult> GetPlayer([FromQuery] int id)
         {

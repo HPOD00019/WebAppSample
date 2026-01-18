@@ -20,9 +20,9 @@ namespace GameEngineService.Domain
             _sessions.TryGetValue(sessionId, out var session);
             return session;
         }
-        public int GetSessionByPlayerId(int playerId)
+        public int  GetSessionByPlayerId(int playerId)
         {
-            _players.TryGetValue(playerId, out var session);
+            _players.TryGetValue(playerId, out int session);
             return session;
         }
         public void AddPlayer(int playerId, int sessionId)

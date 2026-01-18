@@ -83,7 +83,7 @@ namespace GameEngineService.Application
                 }
                 var blackTime = _timeManager.BlackTime;
                 _message.WhiteRemainingTime = (int)remaningTime.TotalMilliseconds;
-                _message.BlackRemainingTime = (int)remaningTime.TotalMilliseconds;
+                _message.BlackRemainingTime = (int)blackTime.TotalMilliseconds;
             }
             var res = _chessCore.GetMatchResult();
             if (res != null)
@@ -117,11 +117,41 @@ namespace GameEngineService.Application
         {
             _control = control;
             TimeControlTransitions.TryParseTimeControl(control,out var time, out var increment);
-            _timeManager = new BasicTimeManager(time, time, increment);
+            _timeManager = new BasicTimeManager( time, increment, OnTimeElapsed);
         }
+        public void OnTimeElapsed()
+        {
+            var w_time = _timeManager.WhiteTime;
+            var b_time = _timeManager.BlackTime;
 
+            if(w_time.TotalMilliseconds <= 0)
+            {
+                var result = new MatchResultDTO
+                {
+                    matchId = Id,
+                    control = _control,
+                    result = MatchResult.BlackWinOnTime
+                };
+                OnMatchEnd.Invoke(this, result);
+                _connection.SendMessage(MatchResult.BlackWinOnTime, Id);
+                return;
+            }
+            if(b_time.TotalMilliseconds <= 0)
+            {
+                var result = new MatchResultDTO
+                {
+                    matchId = Id,
+                    control = _control,
+                    result = MatchResult.WhiteWinOnTime
+                };
+                OnMatchEnd.Invoke(this, result);
+                _connection.SendMessage(MatchResult.WhiteWinOnTime, Id);
+                return;
+            }
+        }
         public string GetCurrentPositionFen()
         {
+
             var position = _chessCore.GetCurrentPositionInFen();
             return position;
             

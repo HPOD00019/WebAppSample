@@ -32,12 +32,10 @@ namespace AuthService.Infrastructure.PasswordHashServices
             var HashedPassword = await Task.Run(() => 
             {
                 var argon = new Argon2id(Encoding.UTF8.GetBytes(PlainPassword));
-
                 argon.Salt = Encoding.UTF8.GetBytes(Salt);
                 argon.DegreeOfParallelism = 1;
                 argon.MemorySize = 65536;
                 argon.Iterations = 3;
-
                 return argon.GetBytes(32);
             });
 

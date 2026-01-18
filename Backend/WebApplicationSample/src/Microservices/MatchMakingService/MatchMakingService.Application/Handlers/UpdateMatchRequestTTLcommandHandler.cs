@@ -56,7 +56,7 @@ namespace MatchMakingService.Application.Handlers
             
             
             var rating = user.GetRatingByTimeControl(userRequestTimeControl.Value);
-            var users = await _userCacheRepository.GetUsersWithRatingFromTo((int)0.8*rating, (int)1.2*rating, userRequestTimeControl.Value);
+            var users = await _userCacheRepository.GetUsersWithRatingFromTo((int)(0.8*rating), (int)(1.2*rating), userRequestTimeControl.Value);
             var opponent = users.FirstOrDefault(u => u.Id != id);
             if(opponent == null)
             {

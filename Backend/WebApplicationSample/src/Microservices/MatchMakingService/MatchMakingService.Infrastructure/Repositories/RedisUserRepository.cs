@@ -92,6 +92,10 @@ namespace MatchMakingService.Infrastructure.Repositories
         {
             var result = await _db.SortedSetRangeByScoreWithScoresAsync(control.ToString(), from, to);
             var list = result.Select(e => new Tuple<string, int>(e.Element, (int)e.Score)).ToList();
+            if (list.Count > 1)
+            {
+
+            }
             var users = new List<User>();
             foreach(var item in list)
             {

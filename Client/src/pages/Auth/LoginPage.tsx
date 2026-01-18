@@ -6,8 +6,7 @@ import '../LoginPage.css';
 
 
 export const LoginPage : React.FC<LoginPageProps> = ({
-    onSuccess,
-}) => {
+    onSuccess,}) => {
     const handleLoginSuccess = () => {
         onSuccess?.();
     }
@@ -15,7 +14,6 @@ export const LoginPage : React.FC<LoginPageProps> = ({
         <AuthLayout 
             title='Walcome back!'
             subtitle='Please sign in to your account'
-            footerLinkText='Sign up'
         >
             <div className='login-page__content'>
                 <LoginForm/>

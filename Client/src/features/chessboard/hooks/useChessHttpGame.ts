@@ -13,9 +13,11 @@ export const useChessHttpGame = (elo:number, fen?: string) : [string, () => stri
     }
     const [getBestMove] = useHttpGameConnection();
     const OnMovePiece = async (from: string, to: string, promotionType?: 'q'| 'n' | 'b' |'r') => {
+        console.log(from, to);
         const moves = chessCoreRef.current.getLegalMoves(from);
         const isLegal = moves.includes(to);
-        
+        console.log(moves);
+        console.log(isLegal);
         if(promotionType && isLegal){
             chessCoreRef.current.makeMove(from, to, 'n');
             const newFen = chessCoreRef.current.getFen();
@@ -26,11 +28,15 @@ export const useChessHttpGame = (elo:number, fen?: string) : [string, () => stri
         if(isLegal){
             chessCoreRef.current.makeMove(from, to);
             const newFen = chessCoreRef.current.getFen();
-            ChangeFen(newFen);
+            console.log(newFen);
+            await ChangeFen(newFen);
+            console.log(_fen);
         }
-        const move = await getBestMove(_fen, elo);
-        chessCoreRef.current.makeMoveSan(move);
+        const move = await getBestMove(chessCoreRef.current.getFen(), elo);
+        console.log(move);
+        chessCoreRef.current.makeMove(move[0] + move[1], move[2] + move[3]);
         const fen = chessCoreRef.current.getFen();
+        console.log(fen);
         ChangeFen(fen);
         return isLegal;
     }
