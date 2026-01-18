@@ -1,5 +1,5 @@
 import { FlatPanelButton } from "@shared/ui/FlatPanelButton";
-import { NavItem } from "./NavItem";
+import { useNavigate, useNavigation } from "react-router-dom";
 
 export interface NavPanelProps{
     onAccountClicked?: () => void;
@@ -11,13 +11,13 @@ export interface NavPanelProps{
 
 export const NavPanel = (props: NavPanelProps) => {
     const classNames = props.className == null? "" : props.className;
-    
+    const navigate = useNavigate();
     return(
         <div className={"search-match-nav-panel" + " " + classNames }>
-            <FlatPanelButton onClick={props.onAccountClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>My Account</p></FlatPanelButton>
+            <FlatPanelButton onClick={() => navigate('/botPage')}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>My Account</p></FlatPanelButton>
             <FlatPanelButton onClick={props.onSettingsClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Options</p></FlatPanelButton>
-            <FlatPanelButton onClick={props.onNewGameClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>New Game</p></FlatPanelButton>
-            <FlatPanelButton onClick={props.onBotPageClicked}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Play with Bot</p></FlatPanelButton>
+            <FlatPanelButton onClick={() => navigate('/search')}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>New Game</p></FlatPanelButton>
+            <FlatPanelButton onClick={() => navigate('/botPage')}><p style={{margin:'0px', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Play with Bot</p></FlatPanelButton>
         </div>
     )
 }

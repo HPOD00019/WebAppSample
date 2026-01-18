@@ -13,14 +13,7 @@ export const RegisterPage = (props: RegisterPageProps) => {
             footerLinkText="Already have an account? Login..."
         >
             <RegisterForm/>
-
-
-
             <MyComponent/>
-
-
-
-
         </AuthLayout>
     )
 }

@@ -31,6 +31,6 @@ export const router = createBrowserRouter([
     },
     {
         path: '/botPage',
-        element: <BotPage/>
+        element: <BotPage />
     }
 ]);
